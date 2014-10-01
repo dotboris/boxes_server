@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'boxes_server/version'
+require 'boxes/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'boxes_server'
-  spec.version       = BoxesServer::VERSION
+  spec.name          = 'boxes'
+  spec.version       = Boxes::VERSION
   spec.authors       = ['Boris Bera']
   spec.email         = ['bboris@rsoft.ca']
   spec.summary       = %q{All the daemons, tools and services used to run a boxes server}
@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
     required to run the server component.
   DESC
 
-  spec.homepage      = 'https://github.com/beraboris/boxes_server'
+  spec.homepage      = 'https://github.com/beraboris/boxes'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0")
