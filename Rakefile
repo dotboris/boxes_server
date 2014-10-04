@@ -7,4 +7,4 @@ task :spec do
   GEMS.each { |g| sh "cd #{g}; #{$0} spec" }
 end
 
-task :default => 'all:spec'
+task :default => 'spec'
