@@ -1,1 +1,1 @@
-GEMS = %w{commons}
+GEMS = %w{commons scalpel}
