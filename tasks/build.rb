@@ -1,6 +1,5 @@
 require 'pathname'
-
-GEMS = %w{commons}
+require 'gems'
 
 root = Pathname.new(__FILE__) + '../../'
 version = (root + 'BOXES_VERSION').read.strip
