@@ -1,9 +1,10 @@
-require 'bundler/gem_tasks'
-require 'rspec/core/rake_task'
+$:.unshift File.expand_path('../tasks', __FILE__)
 
-Rake::Task[:release].clear.comment = 'Disabled to prevent accidental push to rubygems'
+require 'build'
 
-RSpec::Core::RakeTask.new(:spec)
+GEMS = %w{commons}
+task :spec do
+  GEMS.each { |g| sh "cd #{g}; rake" }
+end
 
-task :default => :spec
-
+task :default => 'all:spec'
