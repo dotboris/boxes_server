@@ -54,6 +54,7 @@ RUNNABLE.each do |gem|
     desc "Build #{gem} docker image"
     task :docker => docker_gem do
       sh "docker build -t boxes/#{gem}:#{version} #{gem}"
+      sh "docker tag boxes/#{gem}:#{version} boxes/#{gem}:latest"
     end
 
     desc "Clean #{gem} docker build dir"
