@@ -9,7 +9,7 @@ task :spec do
 end
 
 desc 'Clean up the packages'
-task :clean do
+task :clean => 'all:docker:clean' do
   rm_rf 'pkg'
 end
 
