@@ -20,4 +20,5 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'mixlib-cli', '~> 1.5.0'
+  spec.add_dependency 'bunny', '~> 0.9.1'
 end
