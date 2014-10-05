@@ -7,4 +7,6 @@ COPY docker_build/boxes-scalpel.gem /var/src/
 RUN gem install --no-rdoc --no-ri /var/src/boxes-commons.gem
 RUN gem install --no-rdoc --no-ri /var/src/boxes-scalpel.gem
 
+ENV BOXES_AMQP_URL amqp://boxes:boxes@rabbitmq
+
 CMD scalpel

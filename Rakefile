@@ -2,6 +2,7 @@ $:.unshift File.expand_path('../tasks', __FILE__)
 
 require 'gems'
 require 'build'
+require 'run'
 
 desc 'Run specs on all gems'
 task :spec do
