@@ -4,7 +4,7 @@ namespace :run do
   RUNNABLE.each do |gem|
     desc "Run boxes/#{gem} container interactively"
     task gem do
-      sh "docker run -t --rm --link rabbitmq:rabbitmq boxes/#{gem}"
+      sh "docker run --rm -ti --link rabbitmq:rabbitmq boxes/#{gem}"
     end
   end
 
