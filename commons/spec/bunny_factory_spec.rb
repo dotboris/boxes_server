@@ -13,7 +13,7 @@ describe 'Boxes::Commons#bunny' do
   it 'should default to a localhost url when it is not in the environment' do
     ENV['BOXES_AMQP_URL'] = nil
 
-    expect(Bunny).to receive(:new).with('amqp://localhost/')
+    expect(Bunny).to receive(:new).with('amqp://localhost')
 
     Boxes::Commons.bunny
   end

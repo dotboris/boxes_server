@@ -1,5 +1,16 @@
 #!/usr/bin/env ruby
-
 require 'boxes/scalpel'
+require 'boxes/commons/bunny_factory'
 
-puts 'hello world'
+puts 'Scalpel reporting in!'
+
+conn = Boxes::Commons.bunny
+conn.start
+
+ch = conn.create_channel
+q = ch.queue 'boxes.uncut'
+
+q.subscribe block: true do |_, _, body|
+  puts 'Read a thing'
+  puts body
+end

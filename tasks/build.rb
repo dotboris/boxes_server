@@ -11,6 +11,7 @@ GEMS.each do |gem|
 
 
   namespace gem do
+    # build the version file from BOXES_VERISION
     file version_file => 'BOXES_VERSION' do
       contents = (<<-FILE).gsub(/^\s{8}/, '')
         # WARNING: This file was generate by the #{gem}:update_version rake task. To
@@ -25,7 +26,9 @@ GEMS.each do |gem|
       (version_file).write(contents)
     end
 
-    file pkg_gem_name(gem) => ['pkg', version_file] do
+    # gems depend on all their files
+    gem_files = Dir.glob %w(bin/**/* lib/**/* spec/**/* *.gemspec).map { |p| "#{gem}/#{p}" }
+    file pkg_gem_name(gem) => ['pkg', version_file] + gem_files do
       sh <<-CMD
         cd #{gem}
         gem build #{gemspec}
@@ -41,28 +44,25 @@ GEMS.each do |gem|
 end
 
 RUNNABLE.each do |gem|
-  docker_dir = "#{gem}/docker_build"
-  docker_gem = "#{docker_dir}/#{full_name(gem)}.gem"
-
   namespace gem do
-    directory docker_dir
-
-    file docker_gem => [docker_dir, pkg_gem_name(gem)] do
-      cp pkg_gem_name(gem), docker_gem
-    end
+    directory docker_dir(gem)
 
     desc "Build #{gem} docker image"
-    task :docker => docker_gem do
+    task :docker do
       sh "docker build -t boxes/#{gem}:#{version} #{gem}"
       sh "docker tag boxes/#{gem}:#{version} boxes/#{gem}:latest"
     end
 
     desc "Clean #{gem} docker build dir"
     task 'docker:clean' do
-      rm_rf docker_dir
+      rm_rf docker_dir(gem)
     end
   end
+
+  add_docker_dep(gem, gem)
 end
+
+add_docker_dep('scalpel', 'commons')
 
 namespace :all do
   desc 'Update version for all projects'
