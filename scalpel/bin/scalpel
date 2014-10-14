@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 require 'boxes/scalpel'
 require 'boxes/scalpel/order'
-require 'boxes/commons/factories'
+require 'boxes/commons'
 
 puts 'Scalpel reporting in!'
 
