@@ -31,5 +31,18 @@ describe Boxes::Scalpel do
         expect(image.rows).to eq 33
       end
     end
+
+    it 'should convert slices to png' do
+      original = Magick::Image.new 100, 100 do
+        self.format = 'JPG'
+      end
+
+      slices = Boxes::Scalpel.split_image original.to_blob, 10, 10
+
+      slices.each do |slice|
+        image = Magick::Image.from_blob(slice).first
+        expect(image.format).to eq 'PNG'
+      end
+    end
   end
 end

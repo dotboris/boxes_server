@@ -15,7 +15,7 @@ module Boxes
         base_image.crop(i * width, j * height, width, height)
       end
 
-      slices.map &:to_blob
+      slices.map{ |slice| slice.to_blob{ self.format = 'PNG' } }
     end
   end
 end
