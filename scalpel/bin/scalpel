@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require 'boxes/scalpel'
+require 'boxes/scalpel/order'
 require 'boxes/commons/bunny_factory'
 
 puts 'Scalpel reporting in!'
@@ -11,6 +12,12 @@ ch = conn.create_channel
 q = ch.queue 'boxes.uncut'
 
 q.subscribe block: true do |_, _, body|
+  begin
   puts 'Read a thing'
-  puts body
+  order = Boxes::Scalpel::Order.from_json body
+  puts "order: #{order.inspect}"
+  rescue => e
+    puts "Failed to respond to request #{e}"
+    puts e.backtrace
+  end
 end

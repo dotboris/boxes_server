@@ -10,6 +10,7 @@ namespace :run do
 
   desc 'Run servers (rabbitmq) as daemons. Old versions will be removed.'
   task :servers do
-    sh 'docker run -d -P --name rabbitmq -e RABBITMQ_USER=boxes -e RABBITMQ_PASS=boxes tutum/rabbitmq'
+    sh 'docker rm rabbitmq'
+    sh 'docker run -d -P --name rabbitmq -e RABBITMQ_USER=boxes -e RABBITMQ_PASS=boxes -p 5672:5672 -p 15672:15672 tutum/rabbitmq'
   end
 end
