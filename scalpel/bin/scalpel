@@ -13,9 +13,11 @@ q = ch.queue 'boxes.uncut'
 
 q.subscribe block: true do |_, _, body|
   begin
-  puts 'Read a thing'
-  order = Boxes::Scalpel::Order.from_json body
-  puts "order: #{order.inspect}"
+    puts 'Read a thing'
+    order = Boxes::Scalpel::Order.from_json body
+    puts "order: #{order.inspect}"
+
+    splits = Boxes::Scalpel.split_image order.image, order.x, order.y
   rescue => e
     puts "Failed to respond to request #{e}"
     puts e.backtrace
