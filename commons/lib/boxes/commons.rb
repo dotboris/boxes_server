@@ -1,5 +1,5 @@
 require 'boxes/commons/version'
-require 'boxes/commons/bunny_factory'
+require 'boxes/commons/factories'
 
 module Boxes
   module Commons
