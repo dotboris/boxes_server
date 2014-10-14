@@ -20,4 +20,5 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'boxes-commons', Boxes::Scalpel::VERSION
+  spec.add_dependency 'rmagick', '~> 2.13.2'
 end
