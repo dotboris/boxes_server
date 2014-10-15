@@ -1,11 +1,12 @@
 require 'pathname'
+require 'boxes/version'
 
 def root
   $root ||= Pathname.new(__FILE__) + '../../'
 end
 
 def version
-  $boxes_version ||= (root + 'BOXES_VERSION').read.strip
+  Boxes::VERSION
 end
 
 def full_name(gem)
