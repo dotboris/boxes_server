@@ -24,6 +24,15 @@ module Boxes
         @slices = []
         @row_count = 1
       end
+
+      def save!
+        (@dir + 'original.png').open('w') { |f| f.write original }
+        (@dir + 'row_count').open('w') { |f| f.write row_count }
+
+        slices.each.with_index do |slice, i|
+          (@dir + "#{i}.png").open('w') { |f| f.write slice }
+        end
+      end
     end
   end
 end

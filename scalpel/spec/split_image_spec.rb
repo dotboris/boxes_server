@@ -38,4 +38,48 @@ describe Boxes::Scalpel::SplitImage do
       expect(root.children).to include(root + 'a', root + 'b')
     end
   end
+
+  describe '#save!' do
+    it 'should save the original image as original.png' do
+      root = Pathname.new '/beware'
+      root.mkpath
+      split_image = Boxes::Scalpel::SplitImage.new root
+
+      split_image.original = 'the original'
+      split_image.save!
+
+      expect((root+'original.png').exist?).to be_truthy
+      expect((root+'original.png').file?).to be_truthy
+      expect((root+'original.png').open &:read).to eq 'the original'
+    end
+
+    it 'should save the row_count as row_count' do
+      root = Pathname.new '/he/is'
+      root.mkpath
+      split_image = Boxes::Scalpel::SplitImage.new root
+
+      split_image.row_count = 5
+      split_image.save!
+
+      expect((root+'row_count').exist?).to be_truthy
+      expect((root+'row_count').file?).to be_truthy
+      expect((root+'row_count').open &:read).to eq '5'
+    end
+
+    it 'should save the slices with numerical names' do
+      root = Pathname.new '/watching/you'
+      root.mkpath
+      split_image = Boxes::Scalpel::SplitImage.new root
+
+      split_image.slices = %w(a b c)
+      split_image.save!
+
+      expect((root+'0.png').exist?).to be_truthy
+      expect((root+'0.png').open &:read).to eq 'a'
+      expect((root+'1.png').exist?).to be_truthy
+      expect((root+'1.png').open &:read).to eq 'b'
+      expect((root+'2.png').exist?).to be_truthy
+      expect((root+'2.png').open &:read).to eq 'c'
+    end
+  end
 end

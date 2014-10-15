@@ -25,6 +25,7 @@ q.subscribe block: true do |_, _, body|
     split_image.original = order.image
     split_image.row_count = x
 
+    split_image.save!
   rescue => e
     puts "Failed to respond to request #{e}"
     puts e.backtrace
