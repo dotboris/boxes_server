@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'boxes/scalpel/version'
+require 'scalpel/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'boxes-scalpel'
-  spec.version       = Boxes::Scalpel::VERSION
+  spec.version       = Scalpel::VERSION
   spec.authors       = ['Boris Bera']
   spec.email         = ['bboris@rsoft.ca']
   spec.summary       = %q{Common code shared by all parts of the boxes server system}
@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'boxes-commons', Boxes::Scalpel::VERSION
+  spec.add_dependency 'boxes-commons', Scalpel::VERSION
   spec.add_dependency 'rmagick', '~> 2.13.2'
 
   spec.add_development_dependency 'fakefs', '~> 0.6.0'

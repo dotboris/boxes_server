@@ -1,15 +1,15 @@
 require 'spec_helper'
-require 'boxes/scalpel'
+require 'scalpel'
 require 'RMagick'
 
-describe Boxes::Scalpel do
+describe Scalpel do
   describe '#split_image' do
     it 'should return images of the same size' do
       original = Magick::Image.new 1000, 500 do
         self.format = 'PNG'
       end
 
-      slices = Boxes::Scalpel.split_image original.to_blob, 10, 10
+      slices = Scalpel.split_image original.to_blob, 10, 10
 
       slices.each do |slice|
         image = Magick::Image.from_blob(slice).first
@@ -23,7 +23,7 @@ describe Boxes::Scalpel do
         self.format = 'PNG'
       end
 
-      slices = Boxes::Scalpel.split_image original.to_blob, 3, 3
+      slices = Scalpel.split_image original.to_blob, 3, 3
 
       slices.each do |slice|
         image = Magick::Image.from_blob(slice).first
@@ -37,7 +37,7 @@ describe Boxes::Scalpel do
         self.format = 'JPG'
       end
 
-      slices = Boxes::Scalpel.split_image original.to_blob, 10, 10
+      slices = Scalpel.split_image original.to_blob, 10, 10
 
       slices.each do |slice|
         image = Magick::Image.from_blob(slice).first

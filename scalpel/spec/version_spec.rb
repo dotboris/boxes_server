@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe Boxes::Scalpel do
+describe Scalpel do
   it 'has a version number' do
-    expect(Boxes::Scalpel::VERSION).not_to be nil
+    expect(Scalpel::VERSION).not_to be nil
   end
 end
