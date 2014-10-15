@@ -12,7 +12,7 @@ module Scalpel
     width = base_image.columns / x
     height = base_image.rows / y
 
-    slices = (0...x).zip(0...y).map do |i, j|
+    slices = (0...x).to_a.product((0...y).to_a).map do |i, j|
       base_image.crop(i * width, j * height, width, height)
     end
 
