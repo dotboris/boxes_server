@@ -1,5 +1,6 @@
 require 'boxes/scalpel/version'
 require 'boxes/scalpel/order'
+require 'boxes/scalpel/split_image'
 require 'boxes/commons'
 
 require 'RMagick'
