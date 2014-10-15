@@ -17,7 +17,7 @@ q.subscribe block: true do |_, _, body|
     order = Scalpel::Order.from_json body
     puts "order: #{order.inspect}"
 
-    slices = Scalpel.split_image order.image, order.columns, order.rows
+    slices = Scalpel.split_image order.image, order.rows, order.columns
 
     split_image = Scalpel::SplitImage.create! Boxes.media_root
     split_image.slices = slices

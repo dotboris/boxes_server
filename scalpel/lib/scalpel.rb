@@ -6,7 +6,7 @@ require 'boxes'
 require 'RMagick'
 
 module Scalpel
-  def self.split_image(image, columns, rows)
+  def self.split_image(image, rows, columns)
     base_image = Magick::Image.from_blob(image).first
 
     width = base_image.columns / columns
