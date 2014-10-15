@@ -23,6 +23,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rspec', '~> 3.1.0'
 
-  spec.add_dependency 'mixlib-cli', '~> 1.5.0'
   spec.add_dependency 'bunny', '~> 0.9.1'
 end
