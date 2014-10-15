@@ -1,4 +1,5 @@
 language: ruby
+install: rake bundle:install
 rvm:
   - 2.1.3
   - 2.1.2
