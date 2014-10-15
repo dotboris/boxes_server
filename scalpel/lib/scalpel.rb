@@ -6,13 +6,13 @@ require 'boxes'
 require 'RMagick'
 
 module Scalpel
-  def self.split_image(image, x, y)
+  def self.split_image(image, columns, rows)
     base_image = Magick::Image.from_blob(image).first
 
-    width = base_image.columns / x
-    height = base_image.rows / y
+    width = base_image.columns / columns
+    height = base_image.rows / rows
 
-    slices = (0...x).to_a.product((0...y).to_a).map do |i, j|
+    slices = (0...columns).to_a.product((0...rows).to_a).map do |i, j|
       base_image.crop(i * width, j * height, width, height)
     end
 
