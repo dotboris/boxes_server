@@ -1,3 +1,4 @@
-require 'boxes/admin'
+#!/usr/bin/env ruby
+require 'boxes/admin_runner'
 
-Boxes::Admin.start
+Boxes::AdminRunner.start
