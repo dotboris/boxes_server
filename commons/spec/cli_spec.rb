@@ -1,13 +1,13 @@
 require 'spec_helper'
-require 'boxes/commons/cli'
+require 'boxes/cli'
 
-describe Boxes::Commons::Cli do
+describe Boxes::Cli do
   before do
     # cli is super noisy, kill stdout during tests
     allow($stdout).to receive(:write)
   end
 
-  let(:cli) { Boxes::Commons::Cli.new 'command' }
+  let(:cli) { Boxes::Cli.new 'command' }
 
   describe '--help' do
     it 'should exit' do
@@ -29,7 +29,7 @@ describe Boxes::Commons::Cli do
     it 'should output the version' do
       allow(cli).to receive(:exit)
 
-      expect{cli.parse_options ['-v']}.to output(Regexp.new Regexp.escape(Boxes::Commons::VERSION.to_s)).to_stdout
+      expect{cli.parse_options ['-v']}.to output(Regexp.new Regexp.escape(Boxes::VERSION.to_s)).to_stdout
     end
   end
 

@@ -1,7 +1,7 @@
 require 'scalpel/version'
 require 'scalpel/order'
 require 'scalpel/split_image'
-require 'boxes/commons'
+require 'boxes'
 
 require 'RMagick'
 

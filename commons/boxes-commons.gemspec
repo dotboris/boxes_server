@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'boxes/commons/version'
+require 'boxes/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'boxes-commons'
-  spec.version       = Boxes::Commons::VERSION
+  spec.version       = Boxes::VERSION
   spec.authors       = ['Boris Bera']
   spec.email         = ['bboris@rsoft.ca']
   spec.summary       = %q{Common code shared by all parts of the boxes server system}
