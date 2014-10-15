@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require 'boxes/scalpel'
 require 'boxes/scalpel/order'
+require 'boxes/scalpel/split_image'
 require 'boxes/commons'
 
 puts 'Scalpel reporting in!'
@@ -18,6 +19,8 @@ q.subscribe block: true do |_, _, body|
     puts "order: #{order.inspect}"
 
     splits = Boxes::Scalpel.split_image order.image, order.x, order.y
+
+    split_image = Boxes::Scalpel::SplitImage.create! Boxes::Commons.media_root
   rescue => e
     puts "Failed to respond to request #{e}"
     puts e.backtrace
