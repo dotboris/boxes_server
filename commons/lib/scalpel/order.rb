@@ -2,15 +2,15 @@ require 'json'
 require 'base64'
 
 module Scalpel
-  Order = Struct.new :image, :x, :y do
+  Order = Struct.new :image, :columns, :rows do
     def self.from_json(json)
       hash = JSON.parse json
-      new Base64.decode64(hash['image']), hash['x'], hash['y']
+      new Base64.decode64(hash['image']), hash['columns'], hash['rows']
     end
 
     def to_json
       hash = {
-          x: x, y: y,
+          columns: columns, rows: rows,
           image: Base64.encode64(image).chomp
       }
 
