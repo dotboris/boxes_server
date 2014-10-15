@@ -8,7 +8,7 @@ task :default => 'spec'
 
 desc 'Run bundle install on all projects'
 task 'bundle:install' do
-  PROJECTS.each { |p| sh "cd #{p}; bundle install"}
+  PROJECTS.each { |p| sh "cd #{p}; bundle install" }
 end
 
 namespace :rabbitmq do
