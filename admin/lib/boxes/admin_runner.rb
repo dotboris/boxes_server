@@ -11,9 +11,13 @@ module Boxes
     rabbitmq_options
     desc 'Ingest an image into the boxes server. The image will be split into the given number of rows and columns.'
     def ingest(image, rows, columns, options={})
-      connection = Boxes.bunny options[:mq_url]
+      json = Scalpel::Order.new(File.read(image), rows.to_i, columns.to_i).to_json
 
-      json = Scalpel::Order.new(image, rows.to_i, columns.to_i).to_json
+      connection = Boxes.bunny options[:mq_url]
+      connection.start
+      channel = connection.create_channel
+      queue = channel.queue 'boxes.uncut'
+      channel.default_exchange.publish json, routing_key: queue.name
     end
   end
 end
