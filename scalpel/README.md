@@ -1,6 +1,6 @@
 Scalpel
 =======
 
-Scalpel is a daemon with one job. Take images and cut them into pieces.
+Scalpel is a daemon with one job. It take images and cut them into pieces.
 
-The pieces are stored on disk and in the database.
+Images to be cut come in from a message queue (rabbitmq). The resulting pieces are stored on disk.
