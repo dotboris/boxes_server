@@ -1,0 +1,20 @@
+$:.unshift File.expand_path('../lib', __FILE__)
+require 'bundler/setup'
+require 'rake/clean'
+require 'rspec/core/rake_task'
+require 'boxes/admin_version'
+
+RSpec::Core::RakeTask.new :spec do |t|
+  t.rspec_opts = ['--color', '--format progress']
+end
+task :default => :spec
+
+sources = FileList['bin/**/*', 'lib/**/*', 'spec/**/*', '*.gemspec']
+gem = "boxes-admin-#{Boxes::ADMIN_VERSION}.gem"
+file gem => sources do
+  sh 'gem build boxes-admin.gemspec'
+end
+CLOBBER << gem
+
+desc 'Build gem file'
+task :gem => gem
