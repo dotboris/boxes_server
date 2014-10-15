@@ -21,8 +21,8 @@ describe Scalpel::Order do
 
       json = order.to_json
 
-      expect(JSON.parse(json)['columns']).to eq 3
-      expect(JSON.parse(json)['rows']).to eq 5
+      expect(JSON.parse(json)['rows']).to eq 3
+      expect(JSON.parse(json)['columns']).to eq 5
     end
 
     it 'should base64 encode the image' do
