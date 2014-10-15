@@ -1,4 +1,4 @@
-PROJECTS = %w{commons scalpel}
+PROJECTS = %w{commons scalpel admin}
 
 desc 'Run specs on projects'
 task :spec do
