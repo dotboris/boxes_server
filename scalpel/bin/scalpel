@@ -1,12 +1,11 @@
 #!/usr/bin/env ruby
-require 'boxes/scalpel'
-require 'boxes/scalpel/order'
-require 'boxes/scalpel/split_image'
-require 'boxes/commons'
+$:.unshift File.expand_path('../../lib', __FILE__)
+require 'boxes'
+require 'scalpel'
 
 puts 'Scalpel reporting in!'
 
-conn = Boxes::Commons.bunny
+conn = Boxes.bunny
 conn.start
 
 ch = conn.create_channel
@@ -15,12 +14,12 @@ q = ch.queue 'boxes.uncut'
 q.subscribe block: true do |_, _, body|
   begin
     puts 'Read a thing'
-    order = Boxes::Scalpel::Order.from_json body
+    order = Scalpel::Order.from_json body
     puts "order: #{order.inspect}"
 
-    slices = Boxes::Scalpel.split_image order.image, order.x, order.y
+    slices = Scalpel.split_image order.image, order.x, order.y
 
-    split_image = Boxes::Scalpel::SplitImage.create! Boxes::Commons.media_root
+    split_image = Scalpel::SplitImage.create! Boxes.media_root
     split_image.slices = slices
     split_image.original = order.image
     split_image.row_count = x

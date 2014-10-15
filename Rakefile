@@ -1,3 +1,5 @@
+require 'bundler/setup'
+
 $:.unshift File.expand_path('../tasks', __FILE__)
 
 require 'gems'
