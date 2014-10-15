@@ -1,0 +1,41 @@
+PATH
+  remote: ../commons
+  specs:
+    boxes-commons (0.0.1)
+      bunny (~> 0.9.1)
+      mixlib-cli (~> 1.5.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    amq-protocol (1.9.2)
+    bunny (0.9.8)
+      amq-protocol (>= 1.6.0)
+    diff-lcs (1.2.5)
+    fakefs (0.6.0)
+    mixlib-cli (1.5.0)
+    rake (10.3.2)
+    rmagick (2.13.3)
+    rspec (3.1.0)
+      rspec-core (~> 3.1.0)
+      rspec-expectations (~> 3.1.0)
+      rspec-mocks (~> 3.1.0)
+    rspec-core (3.1.5)
+      rspec-support (~> 3.1.0)
+    rspec-expectations (3.1.2)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.1.0)
+    rspec-mocks (3.1.2)
+      rspec-support (~> 3.1.0)
+    rspec-support (3.1.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  boxes-commons!
+  bundler (~> 1.6)
+  fakefs (~> 0.6.0)
+  rake
+  rmagick (~> 2.13.2)
+  rspec (~> 3.1.0)

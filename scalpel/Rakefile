@@ -1,6 +1,29 @@
+$:.unshift File.expand_path('../lib', __FILE__)
+require 'bundler/setup'
 require 'rspec/core/rake_task'
+require 'boxes/version'
+require 'scalpel/version'
 
 RSpec::Core::RakeTask.new :spec do |t|
   t.rspec_opts = ['--color', '--format progress']
 end
 task :default => :spec
+
+namespace :docker do
+  commons_gem = "../commons/boxes-commons-#{Boxes::VERSION}.gem"
+  file commons_gem do
+    sh "cd ../commons/; #{$0} gem"
+  end
+
+  directory 'pkg'
+
+  file 'pkg/boxes-commons.gem' => ['pkg', commons_gem] do
+    sh "cp #{commons_gem} pkg/boxes-commons.gem"
+  end
+
+  desc 'Build docker image'
+  task :build => 'pkg/boxes-commons.gem' do
+    sh "docker build -t boxes/scalpel:#{Scalpel::VERSION} ."
+    sh "docker tag boxes/scalpel:#{Scalpel::VERSION} boxes/scalpel:latest"
+  end
+end
