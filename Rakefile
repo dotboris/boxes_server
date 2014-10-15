@@ -2,13 +2,15 @@ require 'bundler/setup'
 
 $:.unshift File.expand_path('../tasks', __FILE__)
 
+PROJECTS = %w{commons scalpel}
+
 require 'gems'
 require 'build'
 require 'run'
 
 desc 'Run specs on all gems'
 task :spec do
-  GEMS.each { |g| sh "cd #{g}; #{$0} spec" }
+  PROJECTS.each { |g| sh "cd #{g}; #{$0} spec" }
 end
 
 desc 'Clean up the packages'

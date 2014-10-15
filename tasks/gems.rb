@@ -1,2 +1,2 @@
-GEMS = %w{commons scalpel}
+GEMS = %w{commons}
 RUNNABLE = %w{scalpel}
