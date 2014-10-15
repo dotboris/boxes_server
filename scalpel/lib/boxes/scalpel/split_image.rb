@@ -15,9 +15,14 @@ module Boxes
         retry
       end
 
+      attr_accessor :original, :slices, :row_count
+
       # @param [Pathname] dir directory used to store the split image
       def initialize(dir)
         @dir = dir
+        @original = nil
+        @slices = []
+        @row_count = 1
       end
     end
   end
