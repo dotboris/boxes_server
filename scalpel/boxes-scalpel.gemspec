@@ -21,4 +21,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'boxes-commons', Boxes::Scalpel::VERSION
   spec.add_dependency 'rmagick', '~> 2.13.2'
+
+  spec.add_development_dependency 'fakefs', '~> 0.6.0'
 end
