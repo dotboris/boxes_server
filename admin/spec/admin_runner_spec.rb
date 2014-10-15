@@ -18,7 +18,7 @@ describe Boxes::AdminRunner do
     it 'should create an order with its argument' do
       File.write '/path/to/image', 'image_contents'
 
-      expect(Scalpel::Order).to receive(:new).with('image_contents', 4, 5)
+      expect(Scalpel::Order).to receive(:new).with('image_contents', 5, 4)
 
       runner.ingest '/path/to/image', '4', '5'
     end

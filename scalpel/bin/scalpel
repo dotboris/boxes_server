@@ -22,7 +22,7 @@ q.subscribe block: true do |_, _, body|
     split_image = Scalpel::SplitImage.create! Boxes.media_root
     split_image.slices = slices
     split_image.original = order.image
-    split_image.row_count = order.x
+    split_image.row_count = order.y
 
     split_image.save!
     split_image.activate!
