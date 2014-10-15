@@ -7,5 +7,14 @@ module Scalpel
       hash = JSON.parse json
       new Base64.decode64(hash['image']), hash['x'], hash['y']
     end
+
+    def to_json
+      hash = {
+          x: x, y: y,
+          image: Base64.encode64(image).chomp
+      }
+
+      hash.to_json
+    end
   end
 end
