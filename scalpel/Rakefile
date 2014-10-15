@@ -1,5 +1,6 @@
 $:.unshift File.expand_path('../lib', __FILE__)
 require 'bundler/setup'
+require 'rake/clean'
 require 'rspec/core/rake_task'
 require 'boxes/version'
 require 'scalpel/version'
@@ -14,8 +15,10 @@ namespace :docker do
   file commons_gem do
     sh "cd ../commons/; #{$0} gem"
   end
+  CLEAN << commons_gem
 
   directory 'pkg'
+  CLEAN << 'pkg'
 
   file 'pkg/boxes-commons.gem' => ['pkg', commons_gem] do
     sh "cp #{commons_gem} pkg/boxes-commons.gem"
