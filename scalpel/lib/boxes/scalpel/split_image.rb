@@ -33,6 +33,10 @@ module Boxes
           (@dir + "#{i}.png").open('w') { |f| f.write slice }
         end
       end
+
+      def activate!
+        (@dir + 'active').open('w') {}
+      end
     end
   end
 end

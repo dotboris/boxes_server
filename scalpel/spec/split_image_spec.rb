@@ -82,4 +82,16 @@ describe Boxes::Scalpel::SplitImage do
       expect((root+'2.png').open &:read).to eq 'c'
     end
   end
+
+  describe '#activate!' do
+    it 'should drop a file named active' do
+      root = Pathname.new '/he/knows'
+      root.mkpath
+      split_image = Boxes::Scalpel::SplitImage.new root
+
+      split_image.activate!
+
+      expect((root+'active').exist?).to be_truthy
+    end
+  end
 end
