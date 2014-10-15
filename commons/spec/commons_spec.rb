@@ -22,6 +22,14 @@ describe Boxes do
 
       Boxes.bunny
     end
+
+    it 'should use the url argument first' do
+      ENV['BOXES_AMQP_URL'] = 'env'
+
+      expect(Bunny).to receive(:new).with('arg')
+
+      Boxes.bunny('arg')
+    end
   end
 
   describe '#media_root' do

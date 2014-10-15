@@ -3,8 +3,8 @@ require 'pathname'
 require 'boxes/version'
 
 module Boxes
-  def self.bunny
-    url = ENV['BOXES_AMQP_URL'] || 'amqp://localhost'
+  def self.bunny(url=nil)
+    url = ENV['BOXES_AMQP_URL'] || 'amqp://localhost' unless url
     Bunny.new url
   end
 
