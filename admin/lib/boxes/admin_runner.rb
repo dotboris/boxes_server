@@ -1,4 +1,5 @@
 require 'boson/runner'
+require 'boxes'
 
 module Boxes
   class AdminRunner < Boson::Runner
@@ -9,7 +10,7 @@ module Boxes
     rabbitmq_options
     desc 'Ingest an image into the boxes server. The image will be split into the given number of rows and columns.'
     def ingest(image, rows, columns, options={})
-
+      connection = Boxes.bunny options[:mq_url]
     end
   end
 end
