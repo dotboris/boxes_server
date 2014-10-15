@@ -18,15 +18,5 @@ module Boxes
 
       slices.map{ |slice| slice.to_blob{ self.format = 'PNG' } }
     end
-
-    def self.new_destination!(root)
-      root.mkpath
-      destination = root + SecureRandom.uuid
-      destination.mkdir
-      destination
-    rescue
-      # directory creation failed, try again
-      retry
-    end
   end
 end
