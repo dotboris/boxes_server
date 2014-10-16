@@ -1,5 +1,5 @@
 require 'drivethrough/version'
 require 'drivethrough/api'
 
-module DriveThrough
+class DriveThrough
 end
