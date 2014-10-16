@@ -1,4 +1,4 @@
-PROJECTS = %w{commons scalpel forklift admin}
+PROJECTS = %w{commons scalpel forklift drivethrough admin}
 
 desc 'Run specs on projects'
 task :spec do

@@ -1,0 +1,13 @@
+source 'https://rubygems.org'
+
+if File.exist? File.expand_path('../../commons', __FILE__)
+  gem 'boxes-commons', path: '../commons'
+else
+  gem 'boxes-commons', '= 0.0.1'
+end
+
+group :dev do
+  gem 'bundler', '~> 1.6'
+  gem 'rake'
+  gem 'rspec', '~> 3.1.0'
+end
