@@ -3,6 +3,11 @@ require 'forklift'
 
 describe Forklift do
   describe '#load_slices' do
+    before do
+      # load_slices is noisy, silence stdout
+      allow($stdout).to receive(:write)
+    end
+
     it 'should pick a random sliced image' do
       media_root = double('media root')
       forklift = Forklift.new media_root, double('slices queue')
