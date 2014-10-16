@@ -1,6 +1,6 @@
 require 'scalpel/version'
 require 'scalpel/order'
-require 'scalpel/split_image'
+require 'boxes/split_image'
 require 'boxes'
 
 require 'RMagick'

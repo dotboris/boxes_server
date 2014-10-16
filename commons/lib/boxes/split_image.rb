@@ -1,6 +1,6 @@
 require 'pathname'
 
-module Scalpel
+module Boxes
   class SplitImage
     # create a new split image with a unique storage space
     # @param [Pathname] root directory to hold the new storage space

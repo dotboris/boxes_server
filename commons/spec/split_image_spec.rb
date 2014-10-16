@@ -1,14 +1,14 @@
 require 'spec_helper'
-require 'scalpel/split_image'
+require 'boxes/split_image'
 
-describe Scalpel::SplitImage do
+describe Boxes::SplitImage do
   include FakeFS::SpecHelpers
 
   describe '#create!' do
     it 'should create the root path' do
       root = Pathname.new '/who/knows'
 
-      Scalpel::SplitImage.create! root
+      Boxes::SplitImage.create! root
 
       expect(root.exist?).to be_truthy
       expect(root.directory?).to be_truthy
@@ -17,15 +17,15 @@ describe Scalpel::SplitImage do
     it 'should create a random dir in the root path' do
       root = Pathname.new '/maybe/he/can/tell/you'
 
-      Scalpel::SplitImage.create! root
+      Boxes::SplitImage.create! root
 
       expect(root.children.size).to eq 1
     end
 
     it 'should return a new split image instance' do
-      split_image = Scalpel::SplitImage.create! Pathname.new '/he/knows/a/lot/of/things'
+      split_image = Boxes::SplitImage.create! Pathname.new '/he/knows/a/lot/of/things'
 
-      expect(split_image).to be_a Scalpel::SplitImage
+      expect(split_image).to be_a Boxes::SplitImage
     end
 
     it 'should create a unique dir' do
@@ -33,7 +33,7 @@ describe Scalpel::SplitImage do
       root = Pathname.new '/he/knows/everybodys/secrets'
       (root + 'a').mkpath
 
-      Scalpel::SplitImage.create! root
+      Boxes::SplitImage.create! root
 
       expect(root.children).to include(root + 'a', root + 'b')
     end
@@ -43,7 +43,7 @@ describe Scalpel::SplitImage do
     it 'should save the original image as original.png' do
       root = Pathname.new '/beware'
       root.mkpath
-      split_image = Scalpel::SplitImage.new root
+      split_image = Boxes::SplitImage.new root
 
       split_image.original = 'the original'
       split_image.save!
@@ -56,7 +56,7 @@ describe Scalpel::SplitImage do
     it 'should save the row_count as row_count' do
       root = Pathname.new '/he/is'
       root.mkpath
-      split_image = Scalpel::SplitImage.new root
+      split_image = Boxes::SplitImage.new root
 
       split_image.row_count = 5
       split_image.save!
@@ -69,7 +69,7 @@ describe Scalpel::SplitImage do
     it 'should save the slices with numerical names' do
       root = Pathname.new '/watching/you'
       root.mkpath
-      split_image = Scalpel::SplitImage.new root
+      split_image = Boxes::SplitImage.new root
 
       split_image.slices = %w(a b c)
       split_image.save!
@@ -87,7 +87,7 @@ describe Scalpel::SplitImage do
     it 'should drop a file named active' do
       root = Pathname.new '/he/knows'
       root.mkpath
-      split_image = Scalpel::SplitImage.new root
+      split_image = Boxes::SplitImage.new root
 
       split_image.activate!
 
@@ -97,11 +97,11 @@ describe Scalpel::SplitImage do
 
   describe '#inspect' do
     it 'should include dir, row_count and number of slices' do
-      split_image = Scalpel::SplitImage.new Pathname.new('/a/secret/place')
+      split_image = Boxes::SplitImage.new Pathname.new('/a/secret/place')
       split_image.row_count = 3
       split_image.slices = Array.new(10)
 
-      expect(split_image.inspect).to eq '<Scalpel::SplitImage: dir=/a/secret/place row_count=3 slices.size=10>'
+      expect(split_image.inspect).to eq '<Boxes::SplitImage: dir=/a/secret/place row_count=3 slices.size=10>'
     end
   end
 end
