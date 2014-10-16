@@ -9,5 +9,6 @@ class Forklift
 
   def load_slices
     split_image = Boxes::SplitImage.pick_active @media_root
+    split_image.slices.each { |slice| @slices_queue.publish slice }
   end
 end
