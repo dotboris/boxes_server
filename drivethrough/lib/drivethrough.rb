@@ -1,8 +1,17 @@
 require 'drivethrough/version'
 require 'drivethrough/api'
+require 'boxes'
 
 class DriveThrough
   class NoSlicesError < StandardError; end
+
+  def self.create!
+    connection = Boxes.bunny
+    connection.start
+    channel = connection.create_channel
+
+    new(channel.queue('boxes.slices'), channel.queue('boxes.slices.load'))
+  end
 
   def initialize(slices_queue, request_queue)
     @slices_queue = slices_queue
