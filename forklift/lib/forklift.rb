@@ -1,4 +1,5 @@
 require 'forklift/version'
+require 'boxes/split_image'
 
 class Forklift
   def initialize(media_root, slices_queue)
@@ -7,6 +8,6 @@ class Forklift
   end
 
   def load_slices
-
+    split_image = Boxes::SplitImage.pick_active @media_root
   end
 end
