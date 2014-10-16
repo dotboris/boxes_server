@@ -7,8 +7,8 @@ RUN gem install bundler
 COPY pkg/boxes-commons.gem /var/src/gems/
 RUN gem install --no-rdoc --no-ri /var/src/gems/boxes-commons.gem
 
-COPY bin /var/src/app/
-COPY lib /var/src/app/
+COPY bin /var/src/app/bin
+COPY lib /var/src/app/lib
 COPY Gemfile /var/src/app/
 COPY Gemfile.lock /var/src/app/
 
@@ -21,4 +21,4 @@ ENV BOXES_AMQP_URL amqp://boxes:boxes@rabbitmq
 VOLUME ["/var/src/media"]
 ENV BOXES_MEDIA_ROOT /var/src/media
 
-CMD bundle exec ./bin/scalpel
+CMD bundle exec bin/scalpel
