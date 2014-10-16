@@ -33,4 +33,12 @@ describe Scalpel::Order do
       expect(JSON.parse(json)['image']).to eq Base64.encode64('image').chomp
     end
   end
+
+  describe '#inspect' do
+    it 'should return an inspect string without the image' do
+      order = Scalpel::Order.new '123456789', 3, 4
+
+      expect(order.inspect).to eq '<Scalpel::Order: rows=3 columns=4 image.size=9>'
+    end
+  end
 end

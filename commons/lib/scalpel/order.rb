@@ -16,5 +16,9 @@ module Scalpel
 
       hash.to_json
     end
+
+    def inspect
+      "<#{self.class.name}: rows=#{rows} columns=#{columns} image.size=#{image.size}>"
+    end
   end
 end

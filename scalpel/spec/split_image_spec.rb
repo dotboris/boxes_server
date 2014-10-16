@@ -94,4 +94,14 @@ describe Scalpel::SplitImage do
       expect((root+'active').exist?).to be_truthy
     end
   end
+
+  describe '#inspect' do
+    it 'should include dir, row_count and number of slices' do
+      split_image = Scalpel::SplitImage.new Pathname.new('/a/secret/place')
+      split_image.row_count = 3
+      split_image.slices = Array.new(10)
+
+      expect(split_image.inspect).to eq '<Scalpel::SplitImage: dir=/a/secret/place row_count=3 slices.size=10>'
+    end
+  end
 end

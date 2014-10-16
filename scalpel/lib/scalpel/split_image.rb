@@ -36,5 +36,9 @@ module Scalpel
     def activate!
       (@dir + 'active').open('w') {}
     end
+
+    def inspect
+      "<#{self.class}: dir=#{@dir} row_count=#{row_count} slices.size=#{slices.size}>"
+    end
   end
 end

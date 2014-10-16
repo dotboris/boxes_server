@@ -13,7 +13,7 @@ q = ch.queue 'boxes.uncut'
 
 q.subscribe block: true do |_, _, body|
   begin
-    puts 'Read a thing'
+    puts 'Got a message'
     order = Scalpel::Order.from_json body
     puts "order: #{order.inspect}"
 
@@ -24,8 +24,13 @@ q.subscribe block: true do |_, _, body|
     split_image.original = order.image
     split_image.row_count = order.rows
 
+    puts "split image: #{split_image.inspect}"
+
     split_image.save!
+    puts 'Saved split image'
+
     split_image.activate!
+    puts 'Activated split image'
   rescue => e
     puts "Failed to respond to request #{e}"
     puts e.backtrace
