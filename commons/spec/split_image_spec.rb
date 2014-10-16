@@ -46,18 +46,38 @@ describe Boxes::SplitImage do
   end
 
   describe '#pick_active' do
-    it 'should pick a an active split image'
-    it 'should raise if there are no active images'
+    it 'should pick a an active split image' do
+      root = Pathname.new '/where/they/wont/find/you'
+      create_split_image_dir(root + 'target')
+      create_split_image_dir(root + 'other')
+      FileUtils.touch root + 'target/active'
+      File.write (root+'target/original.png'), 'oh yes'
+      File.write (root+'other/original.png'), 'not quite'
+
+      split_image = Boxes::SplitImage.pick_active(root)
+
+      expect(split_image.original).to eq 'oh yes'
+    end
+
+    it 'should raise if there are no active images' do
+      root = Pathname.new '/the/land/of/nightmares'
+      create_split_image_dir root+'zulu'
+      create_split_image_dir root+'yankee'
+      create_split_image_dir root+'whiskey'
+      create_split_image_dir root+'victor'
+
+      expect{Boxes::SplitImage.pick_active(root)}.to raise_error
+    end
   end
 
-  describe '#load' do
+  describe '#read' do
     it 'should load slices' do
       root = Pathname.new '/media/some_split_image'
       create_split_image_dir root
       slices = %w{alpha bravo charlie delta}
       slices.each.with_index { |content, i| File.write (root + "#{i}.png").to_s, content }
 
-      split_image = Boxes::SplitImage.load root
+      split_image = Boxes::SplitImage.read root
 
       expect(split_image.slices).to include('alpha', 'bravo', 'charlie', 'delta')
     end
@@ -67,7 +87,7 @@ describe Boxes::SplitImage do
       create_split_image_dir root
       File.write (root + 'row_count').to_s, '5'
 
-      split_image = Boxes::SplitImage.load root
+      split_image = Boxes::SplitImage.read root
 
       expect(split_image.row_count).to eq 5
     end
@@ -77,7 +97,7 @@ describe Boxes::SplitImage do
       create_split_image_dir root
       File.write (root + 'original.png').to_s, 'bravo uniform tango tango sierra'
 
-      split_image = Boxes::SplitImage.load root
+      split_image = Boxes::SplitImage.read root
 
       expect(split_image.original).to eq 'bravo uniform tango tango sierra'
     end

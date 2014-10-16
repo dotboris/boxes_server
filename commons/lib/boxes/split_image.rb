@@ -3,6 +3,8 @@ require 'securerandom'
 
 module Boxes
   class SplitImage
+    class SplitImageNotFound < StandardError; end
+
     # create a new split image with a unique storage space
     # @param [Pathname] root directory to hold the new storage space
     def self.create!(root)
@@ -15,15 +17,24 @@ module Boxes
       retry
     end
 
-    # load a split image from the disk
+    # read a split image from the disk
     # @param [Pathname] path directory containing the split image
-    def self.load(path)
+    def self.read(path)
       split_image = new(path)
       split_image.row_count = (path + 'row_count').open(&:read).to_i
       split_image.original = (path + 'original.png').open &:read
       split_image.slices = path.children.select { |p| /^\d+\.png/ =~ p.basename.to_s }.map { |p| p.open &:read }
 
       split_image
+    end
+
+    # pick a random active split image and read it
+    def self.pick_active(root)
+      candidates = root.children.select { |path| (path+'active').exist? }
+
+      raise SplitImageNotFound, 'found no active split images' if candidates.empty?
+
+      read(candidates.sample)
     end
 
     attr_accessor :original, :slices, :row_count
