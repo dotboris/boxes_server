@@ -9,9 +9,13 @@ puts 'Forklift reporting in!'
 conn = Boxes.bunny
 conn.start
 
-ch = conn.create_channel
-q = ch.queue 'boxes.slices.load'
+subscribe_channel = conn.create_channel
+load_slices_queue = subscribe_channel.queue 'boxes.slices.load'
 
-q.subscribe block: true do
+publish_channel = conn.create_channel
+forklift = Forklift.new Boxes.media_root, publish_channel.queue('boxes.slices')
+
+load_slices_queue.subscribe block: true do
   puts 'Got load request'
+  forklift.load_slices
 end
