@@ -1,3 +1,3 @@
-class DriveThrough
+module DriveThrough
   VERSION = '0.0.1'
 end
