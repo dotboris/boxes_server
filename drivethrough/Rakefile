@@ -26,7 +26,7 @@ namespace :docker do
 
   desc 'Build docker image'
   task :build => 'pkg/boxes-commons.gem' do
-    sh "docker build -t boxes/drivethrough:#{Forklift::VERSION} ."
-    sh "docker tag boxes/drivethrough:#{Forklift::VERSION} boxes/drivethrough:latest"
+    sh "docker build -t boxes/drivethrough:#{DriveThrough::VERSION} ."
+    sh "docker tag boxes/drivethrough:#{DriveThrough::VERSION} boxes/drivethrough:latest"
   end
 end
