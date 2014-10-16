@@ -1,6 +1,12 @@
 require 'spec_helper'
 require 'boxes/split_image'
 
+def create_split_image_dir(root)
+  root.mkpath
+  FileUtils.touch root + 'original.png'
+  File.write (root + 'row_count').to_s, '0'
+end
+
 describe Boxes::SplitImage do
   include FakeFS::SpecHelpers
 
@@ -36,6 +42,44 @@ describe Boxes::SplitImage do
       Boxes::SplitImage.create! root
 
       expect(root.children).to include(root + 'a', root + 'b')
+    end
+  end
+
+  describe '#pick_active' do
+    it 'should pick a an active split image'
+    it 'should raise if there are no active images'
+  end
+
+  describe '#load' do
+    it 'should load slices' do
+      root = Pathname.new '/media/some_split_image'
+      create_split_image_dir root
+      slices = %w{alpha bravo charlie delta}
+      slices.each.with_index { |content, i| File.write (root + "#{i}.png").to_s, content }
+
+      split_image = Boxes::SplitImage.load root
+
+      expect(split_image.slices).to include('alpha', 'bravo', 'charlie', 'delta')
+    end
+
+    it 'should load row_count' do
+      root = Pathname.new '/right/behind/you'
+      create_split_image_dir root
+      File.write (root + 'row_count').to_s, '5'
+
+      split_image = Boxes::SplitImage.load root
+
+      expect(split_image.row_count).to eq 5
+    end
+
+    it 'should load original' do
+      root = Pathname.new '/in/your/head'
+      create_split_image_dir root
+      File.write (root + 'original.png').to_s, 'bravo uniform tango tango sierra'
+
+      split_image = Boxes::SplitImage.load root
+
+      expect(split_image.original).to eq 'bravo uniform tango tango sierra'
     end
   end
 

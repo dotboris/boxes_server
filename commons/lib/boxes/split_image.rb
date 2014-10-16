@@ -1,4 +1,5 @@
 require 'pathname'
+require 'securerandom'
 
 module Boxes
   class SplitImage
@@ -12,6 +13,17 @@ module Boxes
     rescue
       # directory creation failed, try again
       retry
+    end
+
+    # load a split image from the disk
+    # @param [Pathname] path directory containing the split image
+    def self.load(path)
+      split_image = new(path)
+      split_image.row_count = (path + 'row_count').open(&:read).to_i
+      split_image.original = (path + 'original.png').open &:read
+      split_image.slices = path.children.select { |p| /^\d+\.png/ =~ p.basename.to_s }.map { |p| p.open &:read }
+
+      split_image
     end
 
     attr_accessor :original, :slices, :row_count
