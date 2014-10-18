@@ -30,7 +30,7 @@ module Boxes
 
     # pick a random active split image and read it
     def self.pick_active(root)
-      candidates = root.children.select { |path| (path+'active').exist? }
+      candidates = root.children.select { |path| (path+'active').exist? } rescue []
 
       raise SplitImageNotFound, 'found no active split images' if candidates.empty?
 

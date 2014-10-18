@@ -68,6 +68,12 @@ describe Boxes::SplitImage do
 
       expect{Boxes::SplitImage.pick_active(root)}.to raise_error
     end
+
+    it 'should raise when root is bad' do
+      root = Pathname.new '/not/actually/there'
+
+      expect{Boxes::SplitImage.pick_active(root)}.to raise_error(Boxes::SplitImage::SplitImageNotFound)
+    end
   end
 
   describe '#read' do
