@@ -23,10 +23,10 @@ class DriveThrough
   end
 
   def slice
-    _, _, body = @slices_queue.pop
+    _, _, payload = @slices_queue.pop
 
-    if body
-      body
+    if payload
+      payload
     else
       request_more_slices
       requested_slice
@@ -40,6 +40,7 @@ class DriveThrough
   end
 
   def requested_slice
-    @slices_queue.pop_waiting 2
+    _, _, payload = @slices_queue.pop_waiting
+    payload
   end
 end
