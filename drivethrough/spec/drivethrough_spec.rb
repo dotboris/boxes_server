@@ -28,7 +28,7 @@ describe DriveThrough do
       slices_queue = double('slices')
       requests_queue = double('request')
       allow(slices_queue).to receive(:pop).and_return([nil, nil, nil])
-      allow(slices_queue).to receive(:subscribe)
+      allow(slices_queue).to receive(:pop_waiting)
       dt = DriveThrough.new slices_queue, requests_queue
 
       expect(requests_queue).to receive(:publish)
@@ -40,7 +40,7 @@ describe DriveThrough do
       slices_queue = double('slices')
       requests_queue = double('request')
       allow(slices_queue).to receive(:pop).and_return([nil, nil, nil])
-      allow(slices_queue).to receive(:subscribe).and_yield(nil, nil, 'something tasteful')
+      allow(slices_queue).to receive(:pop_waiting).and_return('something tasteful')
       allow(requests_queue).to receive(:publish)
       dt = DriveThrough.new slices_queue, requests_queue
 
