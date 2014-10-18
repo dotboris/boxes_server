@@ -1,6 +1,8 @@
 require 'drivethrough/version'
 require 'drivethrough/api'
+require 'drivethrough/queue'
 require 'boxes'
+require 'thread'
 
 class DriveThrough
   class NoSlicesError < StandardError; end
@@ -9,8 +11,10 @@ class DriveThrough
     connection = Boxes.bunny
     connection.start
     channel = connection.create_channel
+    channel.prefetch 1
 
-    new(channel.queue('boxes.slices'), channel.queue('boxes.slices.load'))
+    slices_queue = DriveThrough::Queue.new(channel.queue('boxes.slices'))
+    new(slices_queue, channel.queue('boxes.slices.load'))
   end
 
   def initialize(slices_queue, request_queue)
@@ -22,8 +26,10 @@ class DriveThrough
     _, _, body = @slices_queue.pop
 
     if body
+      puts 'pop'
       body
     else
+      puts 'pop_waiting'
       request_more_slices
       requested_slice
     end
@@ -32,12 +38,10 @@ class DriveThrough
   private
 
   def request_more_slices
-    @request_queue.publish
+    @request_queue.publish ''
   end
 
   def requested_slice
-    res = @slices_queue.subscribe(timeout: 5) { |_, _, body| body }
-    raise NoSlicesError, 'Could not find any slices' if res == :timed_out
-    res
+    @slices_queue.pop_waiting 2
   end
 end

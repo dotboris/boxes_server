@@ -2,7 +2,7 @@ PATH
   remote: ../commons
   specs:
     boxes-commons (0.0.1)
-      bunny (~> 0.9.1)
+      bunny (~> 1.5)
 
 GEM
   remote: https://rubygems.org/
@@ -19,8 +19,8 @@ GEM
       ice_nine (~> 0.11.0)
       thread_safe (~> 0.3, >= 0.3.1)
     builder (3.2.2)
-    bunny (0.9.8)
-      amq-protocol (>= 1.6.0)
+    bunny (1.5.0)
+      amq-protocol (>= 1.9.2)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     daemons (1.1.9)
