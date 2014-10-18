@@ -26,10 +26,8 @@ class DriveThrough
     _, _, body = @slices_queue.pop
 
     if body
-      puts 'pop'
       body
     else
-      puts 'pop_waiting'
       request_more_slices
       requested_slice
     end
