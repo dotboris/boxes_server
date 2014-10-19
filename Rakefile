@@ -8,6 +8,7 @@ task :default => 'spec'
 
 desc 'Run bundle install on all projects'
 task 'bundle:install' do
+  sh 'bundle install'
   PROJECTS.each { |p| sh "cd #{p}; bundle install" }
 end
 
