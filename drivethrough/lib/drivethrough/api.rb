@@ -1,5 +1,6 @@
 require 'grape'
 require 'drivethrough'
+require 'drivethrough/queue'
 
 class DriveThrough
   class Api < Grape::API
@@ -11,11 +12,15 @@ class DriveThrough
       end
     end
 
+    rescue_from DriveThrough::Queue::Timeout do |e|
+      Rack::Response.new([e.message], 408, 'Content-Type' => 'text/error').finish
+    end
+
     resource :slice do
       desc 'Return a random image slice.'
       get do
         env['api.format'] = :binary
-        content_type 'image/png'
+        header 'Content-Type', 'image/png'
 
         dt.slice
       end

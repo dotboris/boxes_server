@@ -1,12 +1,9 @@
 require 'drivethrough/version'
-require 'drivethrough/api'
 require 'drivethrough/queue'
 require 'boxes'
 require 'thread'
 
 class DriveThrough
-  class NoSlicesError < StandardError; end
-
   def self.create!
     connection = Boxes.bunny
     connection.start

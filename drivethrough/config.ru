@@ -1,4 +1,4 @@
 $:.unshift File.expand_path('../lib', __FILE__)
-require 'drivethrough'
+require 'drivethrough/api'
 
 run DriveThrough::Api

@@ -3,7 +3,7 @@ require 'bunny'
 class DriveThrough
   # wrapper for a bunny queue
   class Queue < Delegator
-    class TimeoutError < StandardError; end
+    class Timeout < StandardError; end
 
     def initialize(queue)
       super
@@ -25,7 +25,7 @@ class DriveThrough
         sleep 0.5
       end
 
-      raise TimeoutError, 'Could not get a message in time'
+      raise Timeout, 'Could not get a message in time'
     end
   end
 end

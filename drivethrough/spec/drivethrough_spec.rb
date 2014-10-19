@@ -51,11 +51,11 @@ describe DriveThrough do
       slices_queue = double('slices')
       requests_queue = double('request')
       allow(slices_queue).to receive(:pop).and_return([nil, nil, nil])
-      allow(slices_queue).to receive(:pop_waiting).and_raise(DriveThrough::Queue::TimeoutError)
+      allow(slices_queue).to receive(:pop_waiting).and_raise(DriveThrough::Queue::Timeout)
       allow(requests_queue).to receive(:publish)
       dt = DriveThrough.new slices_queue, requests_queue
 
-      expect{dt.slice}.to raise_error DriveThrough::Queue::TimeoutError
+      expect{dt.slice}.to raise_error DriveThrough::Queue::Timeout
     end
   end
 end
