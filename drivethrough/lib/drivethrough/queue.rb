@@ -1,4 +1,5 @@
 require 'bunny'
+require 'delegate'
 
 class DriveThrough
   # wrapper for a bunny queue
