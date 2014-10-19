@@ -17,7 +17,17 @@ def amqp_url
 end
 
 def tmp_media_root
-  $tmp_media_root ||= Pathname.new(Dir.mktmpdir)
+  unless $tmp_media_root
+    $tmp_media_root = Pathname.new(Dir.mktmpdir)
+    puts "Created tmp media root #{$tmp_media_root}"
+
+    at_exit do
+      FileUtils.rm_rf $tmp_media_root
+      puts "Deleted tmp media door #{$tmp_media_root}"
+    end
+  end
+
+  $tmp_media_root
 end
 
 def media_root
