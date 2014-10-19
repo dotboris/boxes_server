@@ -1,8 +1,12 @@
+require 'bundler'
+
 PROJECTS = %w{commons scalpel forklift drivethrough admin}
 
 desc 'Run specs on projects'
 task :spec do
-  PROJECTS.each { |p| sh "cd #{p}; #{$0} spec" }
+  PROJECTS.each do |p|
+    Bundler.with_clean_env { sh "cd #{p}; #{$0} spec" }
+  end
 end
 task :default => 'spec'
 
