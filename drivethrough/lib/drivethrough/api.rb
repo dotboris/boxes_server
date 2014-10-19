@@ -20,6 +20,7 @@ class DriveThrough
       desc 'Return a random image slice.'
       get do
         env['api.format'] = :binary
+        header 'Cache-Control', 'no-cache'
         header 'Content-Type', 'image/png'
 
         dt.slice

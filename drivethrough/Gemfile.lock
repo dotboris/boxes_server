@@ -51,6 +51,8 @@ GEM
       rack (>= 0.4)
     rack-mount (0.8.3)
       rack (>= 1.0.0)
+    rack-test (0.6.2)
+      rack (>= 1.0)
     rake (10.3.2)
     rspec (3.1.0)
       rspec-core (~> 3.1.0)
@@ -84,6 +86,7 @@ DEPENDENCIES
   boxes-commons!
   bundler (~> 1.6)
   grape (~> 0.9.0)
+  rack-test (~> 0.6.2)
   rake
   rspec (~> 3.1.0)
   thin (~> 1.6.3)
