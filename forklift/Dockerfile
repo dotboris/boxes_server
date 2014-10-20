@@ -2,6 +2,15 @@ FROM ruby:2.1.3
 
 MAINTAINER Boris Bera <bboris@rsoft.ca>
 
+ENV BOXES_AMQP_URL amqp://boxes:boxes@rabbitmq
+
+VOLUME ["/var/src/media"]
+ENV BOXES_MEDIA_ROOT /var/src/media
+
+WORKDIR /var/src/app
+
+CMD bundle exec bin/forklift
+
 RUN gem install bundler
 
 COPY pkg/boxes-commons.gem /var/src/gems/
@@ -12,13 +21,4 @@ COPY lib /var/src/app/lib/
 COPY Gemfile /var/src/app/
 COPY Gemfile.lock /var/src/app/
 
-WORKDIR /var/src/app
-
 RUN bundle install --system --without dev
-
-ENV BOXES_AMQP_URL amqp://boxes:boxes@rabbitmq
-
-VOLUME ["/var/src/media"]
-ENV BOXES_MEDIA_ROOT /var/src/media
-
-CMD bundle exec bin/forklift
