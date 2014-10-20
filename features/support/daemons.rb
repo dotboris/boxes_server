@@ -23,7 +23,7 @@ def tmp_media_root
 
     at_exit do
       FileUtils.rm_rf $tmp_media_root
-      puts "Deleted tmp media door #{$tmp_media_root}"
+      puts "Deleted tmp media root #{$tmp_media_root}"
     end
   end
 
