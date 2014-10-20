@@ -48,6 +48,8 @@ namespace :rabbitmq do
   task :restart => [:stop, :start]
 end
 
+directory 'tmp/media'
+
 namespace :docker do
   DOCKER_PROJECT = %w{scalpel forklift drivethrough}
 
@@ -57,4 +59,22 @@ namespace :docker do
       DOCKER_PROJECT.each { |project| sh "cd #{project}; #{$0} docker:build" }
     end
   end
+
+  namespace :run do
+    desc 'Run drivethrough docker image'
+    task :drivethrough do
+      sh 'docker run -d -P --link rabbitmq:rabbitmq boxes/drivethrough'
+    end
+
+    %w{scalpel forklift}.each do |daemon|
+      desc "Run #{daemon} docker image"
+      task daemon => 'tmp/media' do
+        tmp_path = File.expand_path('../tmp/media', __FILE__)
+        sh "docker run -d --link rabbitmq:rabbitmq -v #{tmp_path}:/var/src/media boxes/#{daemon}"
+      end
+    end
+  end
+
+  desc 'Run all docker images'
+  task :run => %w(run:drivethrough run:scalpel run:forklift)
 end
