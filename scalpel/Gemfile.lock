@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/gemhome/rmagick.git
+  revision: 2d9037433386629b8412343162db87916e479613
+  specs:
+    rmagick (2.13.3)
+
 PATH
   remote: ../commons
   specs:
@@ -13,7 +19,6 @@ GEM
     diff-lcs (1.2.5)
     fakefs (0.6.0)
     rake (10.3.2)
-    rmagick (2.13.3)
     rspec (3.1.0)
       rspec-core (~> 3.1.0)
       rspec-expectations (~> 3.1.0)
@@ -35,5 +40,5 @@ DEPENDENCIES
   bundler (~> 1.6)
   fakefs (~> 0.6.0)
   rake
-  rmagick (~> 2.13.2)
+  rmagick!
   rspec (~> 3.1.0)

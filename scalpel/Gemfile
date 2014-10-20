@@ -6,7 +6,7 @@ else
   gem 'boxes-commons', '= 0.0.1'
 end
 
-gem 'rmagick', '~> 2.13.2'
+gem 'rmagick', github: 'gemhome/rmagick'
 
 group :dev do
   gem 'bundler', '~> 1.6'
