@@ -1,6 +1,4 @@
 require 'bundler'
-require 'cucumber'
-require 'cucumber/rake/task'
 
 PROJECTS = %w{commons scalpel forklift drivethrough admin}
 
@@ -10,13 +8,20 @@ task :spec do
     Bundler.with_clean_env { sh "cd #{p}; #{$0} spec" }
   end
 end
+task :default => 'spec'
 
-desc 'Run features on project'
-Cucumber::Rake::Task.new(:features) do |t|
-  t.cucumber_opts = 'features --format pretty'
+begin
+  require 'cucumber'
+  require 'cucumber/rake/task'
+
+  desc 'Run features on project'
+  Cucumber::Rake::Task.new(:features) do |t|
+    t.cucumber_opts = 'features --format pretty'
+  end
+  task :default => :features
+rescue LoadError
+  puts 'Failed to load cucumber, make sure to run bundle install first'
 end
-
-task :default => ['spec', :features]
 
 desc 'Run bundle install on all projects'
 task 'bundle:install' do
