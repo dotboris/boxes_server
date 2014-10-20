@@ -47,3 +47,14 @@ namespace :rabbitmq do
   desc 'Restart rabbitmq'
   task :restart => [:stop, :start]
 end
+
+namespace :docker do
+  DOCKER_PROJECT = %w{scalpel forklift drivethrough}
+
+  desc 'Build all the projects that can be built with docker'
+  task :build do
+    Bundler.with_clean_env do
+      DOCKER_PROJECT.each { |project| sh "cd #{project}; #{$0} docker:build" }
+    end
+  end
+end
