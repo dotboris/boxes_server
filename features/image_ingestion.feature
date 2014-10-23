@@ -1,5 +1,5 @@
 Feature: Image ingestion
-  In order add pictures to Boxes
+  In order to add pictures to Boxes
   As an administrator
   I want to ingest images
 
