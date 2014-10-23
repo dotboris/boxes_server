@@ -46,25 +46,26 @@ rescue
   return false
 end
 
-def start_scalpel!
+def start_daemon!(name)
   cmd = Bundler.with_clean_env do
     inject_test_env!
-    Dir.chdir 'scalpel' do
-      IO.popen(%w{ruby -r bundler/setup ./bin/scalpel}, 'r')
+    Dir.chdir name do
+      IO.popen(['ruby', '-rbundler/setup', "./bin/#{name}"], 'r')
     end
   end
 
   sleep 2
 
   pid = cmd.pid
-  raise "Failed to start scalpel. Output: \n#{cmd.read}" unless is_alive? cmd.pid
-  puts "Started scalpel @#{pid}"
+  raise "Failed to start #{name}. Output: \n#{cmd.read}" unless is_alive? cmd.pid
+  puts "Started #{name} @#{pid}"
 
   at_exit do
-    puts "killing scalpel @#{pid}"
-    Process.kill 'KILL', pid
+    puts "killing #{name} @#{pid}"
+    Process.kill 15, pid
   end
 end
 
 inject_test_env!
-start_scalpel!
+start_daemon! 'scalpel'
+start_daemon! 'forklift'
