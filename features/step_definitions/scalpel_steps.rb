@@ -3,7 +3,7 @@ def a_split_image
 end
 
 Given(/have no split images/) do
-  FileUtils.rm_rf Dir.glob(File.join(media_root, '*'))
+  delete_all_split_images
 end
 
 Then(/should see (\d+) active split image/) do |count|

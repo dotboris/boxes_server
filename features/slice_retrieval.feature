@@ -9,6 +9,7 @@ Feature: Slices retrieval
     Then I should get a timeout error
 
   Scenario: With slices
-    Given I have 1 split image
+    Given I have no split images
+    And I ingest "q.jpg" cut in 3x1
     When I retrieve an image
     Then I should get a slice
