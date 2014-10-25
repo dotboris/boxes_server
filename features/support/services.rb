@@ -9,7 +9,7 @@ module ApiHelpers
       @last_response = nil
     end
 
-    %i{get post patch put delete options head}.each do |method|
+    [:get, :post, :patch, :put, :delete, :options, :head].each do |method|
       define_method method do |*args|
         @last_response = @client.public_send method, *args
       end
