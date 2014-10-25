@@ -46,6 +46,26 @@ rescue
   return false
 end
 
+def start_service!(name)
+  cmd = Bundler.with_clean_env do
+    inject_test_env!
+    Dir.chdir name do
+      IO.popen %w(thin -r bundler/setup -a 127.0.0.1 -p 23456 start)
+    end
+  end
+
+  sleep 2
+
+  pid = cmd.pid
+  raise "Failed to start #{name}. Output: \n#{cmd.read}" unless is_alive? cmd.pid
+  puts "Started #{name} @#{pid}"
+
+  at_exit do
+    puts "killing #{name} @#{pid}"
+    Process.kill 15, pid
+  end
+end
+
 def start_daemon!(name)
   cmd = Bundler.with_clean_env do
     inject_test_env!
@@ -69,3 +89,4 @@ end
 inject_test_env!
 start_daemon! 'scalpel'
 start_daemon! 'forklift'
+start_service! 'drivethrough'
