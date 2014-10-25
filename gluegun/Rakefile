@@ -1,0 +1,32 @@
+$:.unshift File.expand_path('../lib', __FILE__)
+require 'bundler/setup'
+require 'rake/clean'
+require 'rspec/core/rake_task'
+require 'boxes/version'
+require 'gluegun/version'
+
+RSpec::Core::RakeTask.new :spec do |t|
+  t.rspec_opts = ['--color', '--format progress']
+end
+task :default => :spec
+
+namespace :docker do
+  commons_gem = "../commons/boxes-commons-#{Boxes::VERSION}.gem"
+  file commons_gem do
+    sh "cd ../commons/; #{$0} gem"
+  end
+  CLEAN << commons_gem
+
+  directory 'pkg'
+  CLEAN << 'pkg'
+
+  file 'pkg/boxes-commons.gem' => ['pkg', commons_gem] do
+    sh "cp #{commons_gem} pkg/boxes-commons.gem"
+  end
+
+  desc 'Build docker image'
+  task :build => 'pkg/boxes-commons.gem' do
+    sh "docker build -t boxes/gluegun:#{Gluegun::VERSION} ."
+    sh "docker tag boxes/gluegun:#{Gluegun::VERSION} boxes/gluegun:latest"
+  end
+end
