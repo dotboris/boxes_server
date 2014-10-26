@@ -19,11 +19,12 @@ module Gluegun
 
     def initialize(connection)
       @channel = connection.channel
+      @channel.prefetch(1)
       @queue = @channel.queue('boxes.collages')
     end
 
     def subscribe(&block)
-      @queue.subscribe block: true, manual_ack: true do |delivery_info, _, payload|
+      @queue.subscribe block: true, manual_ack: true, durable: true do |delivery_info, _, payload|
         request = Gluegun::Request.from_json payload
         response = Response.new @channel, delivery_info.delivery_tag
 
