@@ -1,4 +1,17 @@
 #!/usr/bin/env ruby
 $:.unshift File.expand_path('../../lib', __FILE__)
 
-puts 'hello gluegun'
+require 'boxes'
+require 'gluegun/request_queue'
+
+puts 'Gluegun reporting in'
+
+bunny = Boxes.bunny
+bunny.start
+
+queue = Gluegun::RequestQueue.new bunny
+
+queue.subscribe do |request, response|
+  p request
+  response.ack
+end
