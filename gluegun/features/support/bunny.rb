@@ -22,5 +22,10 @@ end
 World(BunnyHelper)
 
 After do
+  # clean up queues
+  bunny.channel.queue_delete 'boxes.collages' rescue nil
+  bunny.channel.queue_delete "boxes.drawings.#{queue_id}" rescue nil
+
+  # close connections
   connection.close if connection && connection.open?
 end
