@@ -10,6 +10,7 @@ module Gluegun
     end
 
     def call
+      tags = []
       drawings = Array.new @target
       count = 0
 
@@ -20,9 +21,10 @@ module Gluegun
           drawing = Drawing.from_json payload
 
           if drawings[drawing.id]
-            @queue.channel.ack(delivery_info.delivery_tag, false)
+            @queue.ack(delivery_info.delivery_tag)
           else
             drawings[drawing.id] = drawing.image
+            tags << delivery_info.delivery_tag
             count += 1
           end
         end
@@ -31,6 +33,8 @@ module Gluegun
 
         sleep 1
       end
+
+      tags.each { |tag| @queue.ack tag }
 
       drawings
     end
