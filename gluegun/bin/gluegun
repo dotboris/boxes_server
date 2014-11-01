@@ -2,11 +2,8 @@
 $:.unshift File.expand_path('../../lib', __FILE__)
 
 require 'boxes'
-require 'gluegun/request'
 require 'gluegun/request_queue'
 require 'gluegun/request_handler'
-require 'gluegun/drawing_queue'
-require 'gluegun/collector'
 
 puts 'GlueGun reporting in'
 
