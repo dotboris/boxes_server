@@ -1,22 +1,8 @@
+require 'boxes/queue_response'
 require 'gluegun/request'
 
 module Gluegun
   class RequestQueue
-    class Response
-      def initialize(channel, tag)
-        @channel = channel
-        @tag = tag
-      end
-
-      def ack
-        @channel.ack(@tag)
-      end
-
-      def nack
-        @channel.nack(@tag)
-      end
-    end
-
     def initialize(connection)
       @channel = connection.channel
       @channel.prefetch(1)
@@ -26,7 +12,7 @@ module Gluegun
     def subscribe(&block)
       @queue.subscribe block: true, manual_ack: true, durable: true do |delivery_info, _, payload|
         request = Gluegun::Request.from_json payload
-        response = Response.new @channel, delivery_info.delivery_tag
+        response = Boxes::QueueResponse.new @channel, delivery_info.delivery_tag
 
         block.call request, response
       end
