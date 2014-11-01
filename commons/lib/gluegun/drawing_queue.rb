@@ -1,7 +1,7 @@
 require 'boxes/queue_response'
 require 'gluegun/drawing'
 
-module Gluegun
+module GlueGun
   class DrawingQueue
     def initialize(connection, id)
       @channel = connection.channel
@@ -13,7 +13,7 @@ module Gluegun
 
       if payload
         response = Boxes::QueueResponse.new @channel, delivery_info.delivery_tag
-        drawing = Gluegun::Drawing.from_json payload
+        drawing = GlueGun::Drawing.from_json payload
 
         [drawing, response]
       else

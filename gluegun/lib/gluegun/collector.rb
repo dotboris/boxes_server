@@ -1,6 +1,6 @@
 require 'gluegun/drawing'
 
-module Gluegun
+module GlueGun
   class Collector
     TIMEOUT = 300
 

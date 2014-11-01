@@ -1,8 +1,8 @@
 require 'gluegun/drawing_queue'
 require 'bunny'
 
-describe Gluegun::DrawingQueue do
-  let(:queue) { Gluegun::DrawingQueue.new @connection, 'testing' }
+describe GlueGun::DrawingQueue do
+  let(:queue) { GlueGun::DrawingQueue.new @connection, 'testing' }
 
   before(:context) do
     @connection = Bunny.new 'amqp://boxes:boxes@localhost'
@@ -42,14 +42,14 @@ describe Gluegun::DrawingQueue do
       end
 
       it 'should parse the payload as drawing' do
-        expect(Gluegun::Drawing).to receive(:from_json).with('{"some":"json"}')
+        expect(GlueGun::Drawing).to receive(:from_json).with('{"some":"json"}')
 
         queue.pop
       end
 
       it 'should return drawing' do
         expected_drawing = double 'drawing'
-        allow(Gluegun::Drawing).to receive(:from_json).and_return(expected_drawing)
+        allow(GlueGun::Drawing).to receive(:from_json).and_return(expected_drawing)
 
         drawing, _ = queue.pop
 

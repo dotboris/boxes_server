@@ -26,7 +26,7 @@ namespace :docker do
 
   desc 'Build docker image'
   task :build => 'pkg/boxes-commons.gem' do
-    sh "docker build -t boxes/gluegun:#{Gluegun::VERSION} ."
-    sh "docker tag boxes/gluegun:#{Gluegun::VERSION} boxes/gluegun:latest"
+    sh "docker build -t boxes/gluegun:#{GlueGun::VERSION} ."
+    sh "docker tag boxes/gluegun:#{GlueGun::VERSION} boxes/gluegun:latest"
   end
 end

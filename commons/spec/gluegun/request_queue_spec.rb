@@ -1,7 +1,7 @@
 require 'gluegun/request_queue'
 require 'bunny'
 
-describe Gluegun::RequestQueue do
+describe GlueGun::RequestQueue do
   before do
     @connection = Bunny.new 'amqp://boxes:boxes@localhost'
     @connection.start
@@ -11,7 +11,7 @@ describe Gluegun::RequestQueue do
     @connection.close
   end
 
-  let(:queue) { Gluegun::RequestQueue.new @connection }
+  let(:queue) { GlueGun::RequestQueue.new @connection }
 
   describe '#subscribe' do
     # block that will successfully exit out of the blocking subscribe call
@@ -42,7 +42,7 @@ describe Gluegun::RequestQueue do
 
     it 'should yield a request', timeout: 5 do
       request = double 'request'
-      allow(Gluegun::Request).to receive(:from_json).and_return(request)
+      allow(GlueGun::Request).to receive(:from_json).and_return(request)
 
       expect(block).to receive(:call).with(request, anything)
 

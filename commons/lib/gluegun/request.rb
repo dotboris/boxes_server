@@ -1,6 +1,6 @@
 require 'json'
 
-module Gluegun
+module GlueGun
   Request = Struct.new(:queue, :row_count) do
     def self.from_json(json)
       hash = JSON.parse json

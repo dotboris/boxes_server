@@ -1,4 +1,4 @@
 require 'gluegun/version'
 
-module Gluegun
+module GlueGun
 end

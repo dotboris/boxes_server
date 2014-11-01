@@ -1,19 +1,19 @@
 require 'gluegun/collector'
 
-describe Gluegun::Collector do
+describe GlueGun::Collector do
   before do
     # speed up tests by killing sleep
-    allow_any_instance_of(Gluegun::Collector).to receive(:sleep)
+    allow_any_instance_of(GlueGun::Collector).to receive(:sleep)
   end
 
   let(:queue) { double 'queue' }
 
   it 'should return all images in the right order' do
-    collector = Gluegun::Collector.new queue, 3
+    collector = GlueGun::Collector.new queue, 3
     allow(queue).to receive(:pop).and_return(
-        [Gluegun::Drawing.new(2, 'a'), double.as_null_object],
-        [Gluegun::Drawing.new(0, 'b'), double.as_null_object],
-        [Gluegun::Drawing.new(1, 'c'), double.as_null_object]
+        [GlueGun::Drawing.new(2, 'a'), double.as_null_object],
+        [GlueGun::Drawing.new(0, 'b'), double.as_null_object],
+        [GlueGun::Drawing.new(1, 'c'), double.as_null_object]
     )
 
     images = collector.call
@@ -22,7 +22,7 @@ describe Gluegun::Collector do
   end
 
   it 'should ack all drawings after receiving them all' do
-    collector = Gluegun::Collector.new queue, 3
+    collector = GlueGun::Collector.new queue, 3
     drawings = (0..2).map { |i| double "drawing #{i}", id: i, image: "image #{i}" }
     response = double 'response'
     allow(queue).to receive(:pop).and_return *drawings.zip([response] * 3)
@@ -35,7 +35,7 @@ describe Gluegun::Collector do
   end
 
   it 'should ack doubles immediately' do
-    collector = Gluegun::Collector.new queue, 2
+    collector = GlueGun::Collector.new queue, 2
     response = double 'response'
     double_response = double 'double response'
     allow(queue).to receive(:pop).and_return(
@@ -53,7 +53,7 @@ describe Gluegun::Collector do
   end
 
   it 'should exclude missing drawings' do
-    collector = Gluegun::Collector.new queue, 3
+    collector = GlueGun::Collector.new queue, 3
     allow(queue).to receive(:pop).and_return(
       [double('first', id: 0, image: 'first'), double('response').as_null_object],
       [nil, nil]

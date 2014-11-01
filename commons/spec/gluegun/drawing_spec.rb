@@ -2,8 +2,8 @@ require 'spec_helper'
 require 'gluegun/drawing'
 require 'base64'
 
-describe Gluegun::Drawing do
-  let(:drawing) { Gluegun::Drawing.new 'a special snowflake', 'baby photos' }
+describe GlueGun::Drawing do
+  let(:drawing) { GlueGun::Drawing.new 'a special snowflake', 'baby photos' }
 
   it 'should have an id' do
     expect(drawing).to respond_to :id, :id=
@@ -17,11 +17,11 @@ describe Gluegun::Drawing do
 
   describe '#from_json' do
     it 'should return a drawing' do
-      expect(Gluegun::Drawing.from_json('{}')).to be_a Gluegun::Drawing
+      expect(GlueGun::Drawing.from_json('{}')).to be_a GlueGun::Drawing
     end
 
     it 'should parse the id' do
-      drawing = Gluegun::Drawing.from_json('{"id": "something"}')
+      drawing = GlueGun::Drawing.from_json('{"id": "something"}')
 
       expect(drawing.id).to eq 'something'
     end
@@ -30,7 +30,7 @@ describe Gluegun::Drawing do
       image = 'my very pretty picture'
       json = JSON.dump image: Base64.encode64(image).strip
 
-      drawing = Gluegun::Drawing.from_json json
+      drawing = GlueGun::Drawing.from_json json
 
       expect(drawing.image).to eq image
     end

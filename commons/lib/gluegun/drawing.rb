@@ -1,7 +1,7 @@
 require 'json'
 require 'base64'
 
-module Gluegun
+module GlueGun
   Drawing = Struct.new :id, :image do
     def self.from_json(json)
       hash = JSON.parse json

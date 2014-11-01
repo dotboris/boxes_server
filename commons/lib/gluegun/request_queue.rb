@@ -1,7 +1,7 @@
 require 'boxes/queue_response'
 require 'gluegun/request'
 
-module Gluegun
+module GlueGun
   class RequestQueue
     def initialize(connection)
       @channel = connection.channel
@@ -11,7 +11,7 @@ module Gluegun
 
     def subscribe(&block)
       @queue.subscribe block: true, manual_ack: true, durable: true do |delivery_info, _, payload|
-        request = Gluegun::Request.from_json payload
+        request = GlueGun::Request.from_json payload
         response = Boxes::QueueResponse.new @channel, delivery_info.delivery_tag
 
         block.call request, response
