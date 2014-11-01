@@ -11,6 +11,7 @@ bunny = Boxes.bunny
 bunny.start
 
 queue = GlueGun::RequestQueue.new bunny
+handler = GlueGun::RequestHandler.new bunny
 
 puts 'Waiting for requests'
-queue.subscribe { |*args| GlueGun::RequestHandler.new(bunny).call *args }
+queue.subscribe { |*args| handler.call *args }
