@@ -28,7 +28,10 @@ describe Gluegun::Drawing do
     end
 
     it 'should parse the image' do
-      image = Magick::Image.new(100, 100) { self.format = 'PNG' }
+      image = Magick::Image.new(100, 100) do
+        self.format = 'PNG'
+        self.depth = 8
+      end
       json = JSON.dump image: Base64.encode64(image.to_blob).strip
 
       drawing = Gluegun::Drawing.from_json json
