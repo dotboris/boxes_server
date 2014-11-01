@@ -28,3 +28,12 @@ When(/submit (\d+)x(\d+) drawings? "(\d+(?:,\s*\d+)*)"/) do |width, height, raw_
     queue.publish drawing.to_json
   end
 end
+
+Then(/should find a (\d+)x(\d+) glued image/) do |width, height|
+  _, _, payload = poll_queue('boxes.drawings.ingest', 2)
+
+  image = Magick::Image.from_blob(payload).first
+
+  expect(image.columns).to eq width
+  expect(image.rows).to eq height
+end
