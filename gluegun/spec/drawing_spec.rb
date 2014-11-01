@@ -1,6 +1,5 @@
 require 'spec_helper'
 require 'gluegun/drawing'
-require 'RMagick'
 require 'base64'
 
 describe Gluegun::Drawing do
@@ -28,11 +27,8 @@ describe Gluegun::Drawing do
     end
 
     it 'should parse the image' do
-      image = Magick::Image.new(100, 100) do
-        self.format = 'PNG'
-        self.depth = 8
-      end
-      json = JSON.dump image: Base64.encode64(image.to_blob).strip
+      image = 'my very pretty picture'
+      json = JSON.dump image: Base64.encode64(image).strip
 
       drawing = Gluegun::Drawing.from_json json
 
