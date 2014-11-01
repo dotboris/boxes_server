@@ -5,7 +5,7 @@ PROJECTS = %w{commons scalpel forklift gluegun drivethrough admin}
 desc 'Run specs on projects'
 task :spec do
   PROJECTS.each do |p|
-    Bundler.with_clean_env { sh "cd #{p}; #{$0} spec" }
+    Bundler.with_clean_env { sh "cd #{p}; #{$0}" }
   end
 end
 task :default => 'spec'

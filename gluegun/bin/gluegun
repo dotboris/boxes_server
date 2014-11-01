@@ -4,12 +4,12 @@ $:.unshift File.expand_path('../../lib', __FILE__)
 require 'boxes'
 require 'gluegun/request_queue'
 
-puts 'Gluegun reporting in'
+puts 'GlueGun reporting in'
 
 bunny = Boxes.bunny
 bunny.start
 
-queue = Gluegun::RequestQueue.new bunny
+queue = GlueGun::RequestQueue.new bunny
 
 queue.subscribe do |request, response|
   p request

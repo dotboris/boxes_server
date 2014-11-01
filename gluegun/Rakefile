@@ -2,13 +2,19 @@ $:.unshift File.expand_path('../lib', __FILE__)
 require 'bundler/setup'
 require 'rake/clean'
 require 'rspec/core/rake_task'
+require 'cucumber'
+require 'cucumber/rake/task'
 require 'boxes/version'
 require 'gluegun/version'
 
 RSpec::Core::RakeTask.new :spec do |t|
   t.rspec_opts = ['--color', '--format progress']
 end
-task :default => :spec
+
+Cucumber::Rake::Task.new(:features) do |t|
+  t.cucumber_opts = 'features --format pretty'
+end
+task :default => [:spec, :features]
 
 namespace :docker do
   commons_gem = "../commons/boxes-commons-#{Boxes::VERSION}.gem"
