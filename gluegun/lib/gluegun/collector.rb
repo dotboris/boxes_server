@@ -10,21 +10,19 @@ module Gluegun
     end
 
     def call
-      tags = []
+      responses = []
       drawings = Array.new @target
       count = 0
 
       TIMEOUT.times do
-        delivery_info, _, payload = @queue.pop
+        drawing, response = @queue.pop
 
-        if payload
-          drawing = Drawing.from_json payload
-
+        if drawing
           if drawings[drawing.id]
-            @queue.ack(delivery_info.delivery_tag)
+            response.ack
           else
             drawings[drawing.id] = drawing.image
-            tags << delivery_info.delivery_tag
+            responses << response
             count += 1
           end
         end
@@ -34,7 +32,7 @@ module Gluegun
         sleep 1
       end
 
-      tags.each { |tag| @queue.ack tag }
+      responses.each &:ack
 
       drawings
     end
