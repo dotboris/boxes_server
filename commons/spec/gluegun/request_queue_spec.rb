@@ -25,15 +25,13 @@ describe GlueGun::RequestQueue do
     end
 
     before do
-      channel = @connection.channel
-
       begin
-        channel.queue_purge 'boxes.collages'
+        @connection.channel.queue_purge 'boxes.collages'
       rescue Bunny::NotFound
         # ignored
       end
 
-      queue = channel.queue 'boxes.collages'
+      queue = @connection.channel.queue 'boxes.collages'
       queue.publish '{"some": "json"}'
 
       # make sure we call the body of block
