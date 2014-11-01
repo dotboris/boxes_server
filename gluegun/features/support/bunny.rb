@@ -13,6 +13,10 @@ module BunnyHelper
 
     @connection
   end
+
+  def queue_id
+    @queue_id ||= SecureRandom.uuid
+  end
 end
 
 World(BunnyHelper)

@@ -1,3 +1,6 @@
 require 'bundler/setup'
 require 'bunny'
+require 'securerandom'
+require 'json'
+require 'RMagick'
 require 'rspec'
