@@ -10,6 +10,14 @@ module GlueGun
     def call(request, response)
       puts "Got request: #{request.inspect}"
 
+      collect_drawings(request)
+
+      response.ack
+    end
+
+    private
+
+    def collect_drawings(request)
       drawings_queue = GlueGun::DrawingQueue.new @connection, request.queue
       collector = GlueGun::Collector.new drawings_queue, request.row_count * request.col_count
 
@@ -17,7 +25,7 @@ module GlueGun
       drawings = collector.call
       puts "Finished collecting drawings. Got #{drawings.size} drawings, #{drawings.select(&:nil?).size} are nil"
 
-      response.ack
+      drawings
     end
   end
 end
