@@ -2,7 +2,11 @@
 $:.unshift File.expand_path('../../lib', __FILE__)
 
 require 'boxes'
+require 'gluegun/request'
 require 'gluegun/request_queue'
+require 'gluegun/request_handler'
+require 'gluegun/drawing_queue'
+require 'gluegun/collector'
 
 puts 'GlueGun reporting in'
 
@@ -11,7 +15,5 @@ bunny.start
 
 queue = GlueGun::RequestQueue.new bunny
 
-queue.subscribe do |request, response|
-  p request
-  response.ack
-end
+puts 'Waiting for requests'
+queue.subscribe { |*args| GlueGun::RequestHandler.new(bunny).call *args }
