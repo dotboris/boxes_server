@@ -26,7 +26,7 @@ describe GlueGun::RequestHandler do
     handler.call(request, double.as_null_object)
   end
 
-  it 'should build a mosaic with the image' do
+  it 'should build a mosaic with the image', :noisy do
     request = GlueGun::Request.new nil, 2, 3, 50, 100
     allow(collector).to receive(:call).and_return(%w{a b c d e f})
 
