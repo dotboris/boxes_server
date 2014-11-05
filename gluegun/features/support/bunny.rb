@@ -35,16 +35,18 @@ module BunnyHelper
 
     res
   end
+
+  def drop_all_queues!
+    bunny.channel.queue_delete 'boxes.collages' rescue nil
+    bunny.channel.queue_delete 'boxes.collages.ingest' rescue nil
+    bunny.channel.queue_delete "boxes.drawings.#{queue_id}" rescue nil
+  end
 end
 
 World(BunnyHelper)
 
 After do
-  # clean up queues
-  bunny.channel.queue_delete 'boxes.collages' rescue nil
-  bunny.channel.queue_delete 'boxes.collages.ingest' rescue nil
-  bunny.channel.queue_delete "boxes.drawings.#{queue_id}" rescue nil
+  drop_all_queues!
 
-  # close connections
   connection.close if connection && connection.open?
 end

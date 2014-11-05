@@ -36,6 +36,7 @@ end
 World(BootstrapHelper)
 
 Before do
+  drop_all_queues!
   start_gluegun!
 end
 
