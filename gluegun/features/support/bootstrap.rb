@@ -11,30 +11,35 @@ module BootstrapHelper
   end
 
   def start_gluegun!
-    cmd = Bundler.with_clean_env do
+    @gluegun = Bundler.with_clean_env do
       inject_test_env!
       IO.popen(%w(ruby -r bundler/setup ./bin/gluegun), 'r')
     end
 
-    sleep 2
+    sleep 1
 
-    pid = cmd.pid
-    raise "Failed to start gluegun. Output: \n#{cmd.read}" unless is_alive? cmd.pid
-    puts "Started gluegun @#{pid}"
+    raise 'Failed to start gluegun.' unless is_alive? @gluegun.pid
+    puts "Started gluegun @#{@gluegun.pid}"
+  end
 
-    at_exit do
-      puts "killing gluegun @#{pid}"
-      Process.kill 15, pid
-    end
+  def kill_gluegun!
+    puts "killing gluegun @#{@gluegun.pid}"
+    Process.kill 15, @gluegun.pid
+  end
+
+  def print_gluegun_output
+    puts 'GlueGun output: '
+    puts @gluegun.read
   end
 end
 
 World(BootstrapHelper)
 
 Before do
-  unless $bootstrapped
-    start_gluegun!
+  start_gluegun!
+end
 
-    $bootstrapped = true
-  end
+After do |s|
+  kill_gluegun!
+  print_gluegun_output if s.failed?
 end
