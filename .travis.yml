@@ -1,5 +1,5 @@
 language: ruby
-install: rake bundle:install
+install: travis_retry rake bundle:install
 before_script: ./ci/rabbitmq_setup.sh
 services:
   - rabbitmq
