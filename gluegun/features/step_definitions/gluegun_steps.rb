@@ -30,10 +30,10 @@ When(/submit (\d+)x(\d+) drawings? "(\d+(?:,\s*\d+)*)"/) do |width, height, raw_
 end
 
 Then(/should find a (\d+)x(\d+) glued image/) do |width, height|
-  _, _, payload = poll_queue('boxes.drawings.ingest', 8)
+  _, _, payload = poll_queue('boxes.collages.ingest', 8)
 
   image = Magick::Image.from_blob(payload).first
 
-  expect(image.columns).to eq width
-  expect(image.rows).to eq height
+  expect(image.columns).to eq width.to_i
+  expect(image.rows).to eq height.to_i
 end

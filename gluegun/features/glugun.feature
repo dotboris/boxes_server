@@ -5,7 +5,7 @@ Feature: Glue gun daemon
 
   Scenario: With all drawings
     Given I request a 200x100 collage cut in 2x1
-    When I submit 100x100 drawings "0, 1, 2"
+    When I submit 100x100 drawings "0, 1"
     Then I should find a 200x100 glued image
 
   Scenario: With double drawings

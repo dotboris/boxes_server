@@ -28,7 +28,9 @@ module GlueGun
     private
 
     def glue_drawings(request, drawings)
-      GlueGun::MosaicMaker.new(request.col_count, request.row_count, request.width, request.height).call(drawings)
+      cols = request.col_count
+      rows = request.row_count
+      GlueGun::MosaicMaker.new(cols, rows, request.width / cols, request.height / rows).call(drawings)
     end
 
     def collect_drawings(request)

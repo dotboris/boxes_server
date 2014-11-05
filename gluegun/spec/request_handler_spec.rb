@@ -18,7 +18,7 @@ describe GlueGun::RequestHandler do
   end
 
   it 'should collect drawings', :noisy do
-    request = GlueGun::Request.new 'the.prettiest.little.queue', 3, 2
+    request = GlueGun::Request.new 'the.prettiest.little.queue', 3, 2, 1000, 1000
     allow(collector).to receive(:call).and_return(['fi', nil, 'fum'])
 
     expect(GlueGun::DrawingQueue).to receive(:new).with(connection, 'the.prettiest.little.queue')
@@ -28,7 +28,7 @@ describe GlueGun::RequestHandler do
   end
 
   it 'should build a mosaic with the image', :noisy do
-    request = GlueGun::Request.new nil, 2, 3, 50, 100
+    request = GlueGun::Request.new nil, 2, 3, 150, 200
     allow(collector).to receive(:call).and_return(%w{a b c d e f})
 
     expect(GlueGun::MosaicMaker).to receive(:new).with(3, 2, 50, 100)
