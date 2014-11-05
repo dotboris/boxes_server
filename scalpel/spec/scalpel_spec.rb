@@ -9,7 +9,7 @@ describe Scalpel do
         self.format = 'PNG'
       end
 
-      slices = Scalpel.split_image original.to_blob, 10, 10
+      slices = Scalpel.split_image original, 10, 10
 
       slices.each do |slice|
         image = Magick::Image.from_blob(slice).first
@@ -23,7 +23,7 @@ describe Scalpel do
         self.format = 'PNG'
       end
 
-      slices = Scalpel.split_image original.to_blob, 3, 3
+      slices = Scalpel.split_image original, 3, 3
 
       slices.each do |slice|
         image = Magick::Image.from_blob(slice).first
@@ -37,7 +37,7 @@ describe Scalpel do
         self.format = 'JPG'
       end
 
-      slices = Scalpel.split_image original.to_blob, 10, 10
+      slices = Scalpel.split_image original, 10, 10
 
       slices.each do |slice|
         image = Magick::Image.from_blob(slice).first

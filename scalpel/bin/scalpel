@@ -4,6 +4,7 @@ $:.unshift File.expand_path('../../lib', __FILE__)
 
 require 'boxes'
 require 'scalpel'
+require 'RMagick'
 
 puts 'Scalpel reporting in!'
 
@@ -19,12 +20,15 @@ q.subscribe block: true do |_, _, body|
     order = Scalpel::Order.from_json body
     puts "order: #{order.inspect}"
 
-    slices = Scalpel.split_image order.image, order.rows, order.columns
+    original = Magick::Image.from_blob(order.image).first
+    slices = Scalpel.split_image original, order.rows, order.columns
 
     split_image = Boxes::SplitImage.create! Boxes.media_root
     split_image.slices = slices
     split_image.original = order.image
     split_image.row_count = order.rows
+    split_image.width = original.columns
+    split_image.height = original.rows
 
     puts "split image: #{split_image.inspect}"
 
