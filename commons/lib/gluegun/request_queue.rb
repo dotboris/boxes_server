@@ -17,5 +17,9 @@ module GlueGun
         block.call request, response
       end
     end
+
+    def publish(request)
+      @queue.publish request.to_json
+    end
   end
 end

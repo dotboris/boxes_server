@@ -5,6 +5,8 @@ describe GlueGun::RequestQueue do
   before do
     @connection = Bunny.new 'amqp://boxes:boxes@localhost'
     @connection.start
+
+    @connection.channel.queue_purge 'boxes.collages' rescue nil
   end
 
   after do
@@ -12,6 +14,20 @@ describe GlueGun::RequestQueue do
   end
 
   let(:queue) { GlueGun::RequestQueue.new @connection }
+
+  describe '#publish' do
+    it 'should publish the request in json' do
+      request = double 'request', to_json: '{"something": "interesting"}'
+
+      queue.publish request
+
+      sleep 0.1
+
+      _, _, payload = @connection.channel.queue('boxes.collages').pop
+
+      expect(payload).to eq '{"something": "interesting"}'
+    end
+  end
 
   describe '#subscribe' do
     # block that will successfully exit out of the blocking subscribe call
