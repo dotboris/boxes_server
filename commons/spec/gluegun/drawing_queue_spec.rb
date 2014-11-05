@@ -4,18 +4,26 @@ require 'bunny'
 describe GlueGun::DrawingQueue do
   let(:queue) { GlueGun::DrawingQueue.new @connection, 'testing' }
 
-  before(:context) do
+  before do
     @connection = Bunny.new 'amqp://boxes:boxes@localhost'
     @connection.start
   end
 
-  after(:context) do
+  after do
     @connection.close
   end
 
   before do
     begin
       @connection.channel.queue_purge 'boxes.drawings.testing'
+    rescue Bunny::NotFound
+      # ignored
+    end
+  end
+
+  after do
+    begin
+      @connection.channel.queue_delete 'boxes.drawings.testing'
     rescue Bunny::NotFound
       # ignored
     end
