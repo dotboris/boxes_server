@@ -4,8 +4,9 @@ require 'gluegun/mosaic_maker'
 
 module GlueGun
   class RequestHandler
-    def initialize(connection)
+    def initialize(connection, collage_queue)
       @connection = connection
+      @collage_queue = collage_queue
     end
 
     def call(request, response)
@@ -15,9 +16,13 @@ module GlueGun
 
       puts 'Gluing drawings together'
       collage = glue_drawings request, drawings
-      puts "Collage is #{collage}"
+      puts "Collage is #{collage.inspect}"
+
+      puts 'Publishing image'
+      @collage_queue.publish collage.to_blob
 
       response.ack
+      puts 'Request done'
     end
 
     private
