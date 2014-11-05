@@ -8,9 +8,12 @@ describe Forklift do
       allow($stdout).to receive(:write)
     end
 
+    let(:media_root) { double 'media root' }
+    let(:slices_queue) { double 'slices queue' }
+    let(:forklift) { Forklift.new media_root, slices_queue }
+
     it 'should pick a random sliced image' do
-      media_root = double('media root')
-      forklift = Forklift.new media_root, double('slices queue')
+      forklift = Forklift.new media_root, slices_queue
 
       expect(Boxes::SplitImage).to receive(:pick_active).with(media_root).
                                        and_return(double('sliced image').as_null_object)
@@ -21,8 +24,6 @@ describe Forklift do
     it 'should publish all slices' do
       split_image = double('split image', slices: %w{echo foxtrot golf hotel})
       allow(Boxes::SplitImage).to receive(:pick_active).and_return(split_image)
-      slices_queue = double('slices queue')
-      forklift = Forklift.new double('media root'), slices_queue
 
       expect(slices_queue).to receive(:publish).with('echo')
       expect(slices_queue).to receive(:publish).with('foxtrot')
@@ -31,5 +32,7 @@ describe Forklift do
 
       forklift.load_slices
     end
+
+    it 'should create a collage request'
   end
 end
