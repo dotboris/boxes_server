@@ -19,3 +19,11 @@ end
 And(/should see a split image with a row_count of (\d+)/) do |row_count|
   expect((a_split_image+'row_count').read).to eq row_count
 end
+
+And(/should see a split image with a width of (\d+)/) do |width|
+  expect((a_split_image+'width').read).to eq width
+end
+
+And(/should see a split image with a height of (\d+)/) do |height|
+  expect((a_split_image+'height').read).to eq height
+end

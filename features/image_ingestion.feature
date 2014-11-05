@@ -9,3 +9,5 @@ Feature: Image ingestion
     Then I should see 1 active split image
     And I should see a split image with 6 slices
     And I should see a split image with a row_count of 3
+    And I should see a split image with a width of 461
+    And I should see a split image with a height of 600
