@@ -5,6 +5,8 @@ def create_split_image_dir(root)
   root.mkpath
   FileUtils.touch root + 'original.png'
   File.write (root + 'row_count').to_s, '0'
+  File.write (root + 'width').to_s, '0'
+  File.write (root + 'height').to_s, '0'
 end
 
 describe Boxes::SplitImage do
@@ -107,6 +109,29 @@ describe Boxes::SplitImage do
 
       expect(split_image.original).to eq 'bravo uniform tango tango sierra'
     end
+
+    it 'should load width' do
+      root = Pathname.new '/in/the/woods'
+      create_split_image_dir root
+
+      File.write (root + 'width').to_s, '200'
+
+      split_image = Boxes::SplitImage.read root
+
+      expect(split_image.width).to eq 200
+    end
+
+
+    it 'should load height' do
+      root = Pathname.new '/under/the/bed'
+      create_split_image_dir root
+
+      File.write (root + 'height').to_s, '300'
+
+      split_image = Boxes::SplitImage.read root
+
+      expect(split_image.height).to eq 300
+    end
   end
 
   describe '#save!' do
@@ -134,6 +159,32 @@ describe Boxes::SplitImage do
       expect((root+'row_count').exist?).to be_truthy
       expect((root+'row_count').file?).to be_truthy
       expect((root+'row_count').open &:read).to eq '5'
+    end
+
+    it 'should save width' do
+      root = Pathname.new '/something/creepy'
+      root.mkpath
+      split_image = Boxes::SplitImage.new root
+
+      split_image.width = 500
+      split_image.save!
+
+      expect((root+'width').exist?).to be_truthy
+      expect((root+'width').file?).to be_truthy
+      expect((root+'width').open &:read).to eq '500'
+    end
+
+    it 'should save height' do
+      root = Pathname.new '/something/not/so/creepy'
+      root.mkpath
+      split_image = Boxes::SplitImage.new root
+
+      split_image.height = 2
+      split_image.save!
+
+      expect((root+'height').exist?).to be_truthy
+      expect((root+'height').file?).to be_truthy
+      expect((root+'height').open &:read).to eq '2'
     end
 
     it 'should save the slices with numerical names' do

@@ -22,6 +22,8 @@ module Boxes
     def self.read(path)
       split_image = new(path)
       split_image.row_count = (path + 'row_count').open(&:read).to_i
+      split_image.width = (path + 'width').open(&:read).to_i
+      split_image.height = (path + 'height').open(&:read).to_i
       split_image.original = (path + 'original.png').open &:read
       split_image.slices = path.children.select { |p| /^\d+\.png/ =~ p.basename.to_s }.map { |p| p.open &:read }
 
@@ -37,7 +39,7 @@ module Boxes
       read(candidates.sample)
     end
 
-    attr_accessor :original, :slices, :row_count
+    attr_accessor :original, :slices, :row_count, :width, :height
 
     # @param [Pathname] dir directory used to store the split image
     def initialize(dir)
@@ -50,6 +52,8 @@ module Boxes
     def save!
       (@dir + 'original.png').open('w') { |f| f.write original }
       (@dir + 'row_count').open('w') { |f| f.write row_count }
+      (@dir + 'width').open('w') { |f| f.write width }
+      (@dir + 'height').open('w') { |f| f.write height }
 
       slices.each.with_index do |slice, i|
         (@dir + "#{i}.png").open('w') { |f| f.write slice }
