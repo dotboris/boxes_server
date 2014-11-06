@@ -4,6 +4,7 @@ $:.unshift File.expand_path('../../lib', __FILE__)
 
 require 'boxes'
 require 'forklift'
+require 'gluegun/request_queue'
 
 puts 'Forklift reporting in!'
 
@@ -14,7 +15,9 @@ subscribe_channel = conn.create_channel
 load_slices_queue = subscribe_channel.queue 'boxes.slices.load'
 
 publish_channel = conn.create_channel
-forklift = Forklift.new Boxes.media_root, publish_channel.queue('boxes.slices')
+request_queue = GlueGun::RequestQueue.new conn
+
+forklift = Forklift.new Boxes.media_root, publish_channel.queue('boxes.slices'), request_queue
 
 load_slices_queue.subscribe block: true do
   begin
