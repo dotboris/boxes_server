@@ -10,7 +10,9 @@ module Scalpel
     width = image.columns / columns
     height = image.rows / rows
 
-    slices = (0...columns).to_a.product((0...rows).to_a).map do |i, j|
+    cols = (0...columns).to_a
+    rows = (0...rows).to_a
+    slices = rows.product(cols).map do |j, i|
       image.crop(i * width, j * height, width, height)
     end
 

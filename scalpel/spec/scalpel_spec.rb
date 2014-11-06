@@ -44,5 +44,26 @@ describe Scalpel do
         expect(image.format).to eq 'PNG'
       end
     end
+
+    it 'should cut images left to right' do
+      draw = Magick::Draw.new.
+          fill('red').point(0, 0).
+          fill('green').point(1, 0).
+          fill('blue').point(2, 0).
+          fill('purple').point(0, 1).
+          fill('yellow').point(1, 1).
+          fill('pink').point(2, 1)
+      image = Magick::Image.new 3, 2
+      draw.draw(image)
+
+      slices = Scalpel.split_image image, 2, 3
+
+      expected_colors = %w{red green blue purple yellow pink}
+      actual_colors = slices.
+          map { |slice| Magick::Image.from_blob(slice).first }.
+          map { |slice| slice.pixel_color(0, 0).to_color }
+
+      expect(actual_colors).to eq expected_colors
+    end
   end
 end
