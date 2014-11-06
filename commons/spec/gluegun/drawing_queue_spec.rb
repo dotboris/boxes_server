@@ -65,4 +65,14 @@ describe GlueGun::DrawingQueue do
       end
     end
   end
+
+  describe '#delete' do
+    it 'should delete the queue' do
+      queue.delete
+
+      sleep 0.1
+
+      expect{@connection.channel.queue_purge('boxes.drawings.testing')}.to raise_error(Bunny::NotFound)
+    end
+  end
 end

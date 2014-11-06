@@ -20,5 +20,9 @@ module GlueGun
         [nil, nil]
       end
     end
+
+    def delete
+      @queue.delete
+    end
   end
 end
