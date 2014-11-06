@@ -8,8 +8,11 @@ describe GlueGun::RequestHandler do
   let(:handler) { GlueGun::RequestHandler.new connection, collage_queue }
 
   let(:collector) { double 'collector', call: []}
-  let(:queue) { double 'queue' }
+  let(:queue) { double 'queue', delete: nil }
   let(:maker) { double 'mosaic maker', call: double('collage', to_blob: nil) }
+
+  let(:request) { GlueGun::Request.new SecureRandom.uuid, 1, 1, 1, 1 }
+  let(:response) { double 'response', ack: nil }
 
   before do
     allow(GlueGun::DrawingQueue).to receive(:new).and_return(queue)
@@ -24,7 +27,7 @@ describe GlueGun::RequestHandler do
     expect(GlueGun::DrawingQueue).to receive(:new).with(connection, 'the.prettiest.little.queue')
     expect(GlueGun::Collector).to receive(:new).with(queue, 6)
 
-    handler.call(request, double.as_null_object)
+    handler.call(request, response)
   end
 
   it 'should build a mosaic with the image', :noisy do
@@ -34,16 +37,27 @@ describe GlueGun::RequestHandler do
     expect(GlueGun::MosaicMaker).to receive(:new).with(3, 2, 50, 100)
     expect(maker).to receive(:call).with(%w(a b c d e f))
 
-    handler.call(request, double.as_null_object)
+    handler.call(request, response)
   end
 
   it 'should publish the collage', :noisy do
-    request = GlueGun::Request.new nil, 2, 3, 50, 100
     collage = double 'collage', to_blob: 'pix'
     allow(maker).to receive(:call).and_return collage
 
     expect(collage_queue).to receive(:publish).with('pix')
 
-    handler.call(request, double.as_null_object)
+    handler.call(request, response)
+  end
+
+  it 'should delete the drawings queue', :noisy do
+    expect(queue).to receive(:delete)
+
+    handler.call request, response
+  end
+
+  it 'should ack the response', :noisy do
+    expect(response).to receive(:ack)
+
+    handler.call request, response
   end
 end
