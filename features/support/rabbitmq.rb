@@ -18,23 +18,9 @@ module BunnyHelpers
     @bunny.close if @bunny
   end
 
-  def purge_slices
-    bunny_channel.queue_purge 'boxes.slices'
+  def drop_queue(queue)
+    bunny_channel.queue_delete queue rescue nil
   end
-
-  def purge_slices_requests
-    bunny_channel.queue_purge 'boxes.slices.load'
-  end
-
-  def purge_uncut_images
-    bunny_channel.queue_purge 'boxes.uncut'
-  end
-end
-
-Before do
-  purge_uncut_images
-  purge_slices_requests
-  purge_slices
 end
 
 After do

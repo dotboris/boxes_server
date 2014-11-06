@@ -24,7 +24,7 @@ module EnvironmentHelpers
   end
 
   def media_root
-    ENV['BOXES_MEDIA_ROOT'] || $tmp_media_root.to_s
+    ENV['BOXES_MEDIA_ROOT'] || tmp_media_root.to_s
   end
 
   def inject_test_env!

@@ -12,8 +12,11 @@ module Boxes
       dir = root + SecureRandom.uuid
       dir.mkdir
       new(dir)
-    rescue
+    rescue => e
       # directory creation failed, try again
+      puts "Failed to create #{dir}"
+      puts e.message
+      puts e.backtrace
       retry
     end
 

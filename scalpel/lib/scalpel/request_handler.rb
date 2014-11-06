@@ -6,7 +6,10 @@ module Scalpel
 
     def call(order)
       original = Magick::Image.from_blob(order.image).first
+      puts "Loaded original: #{original.inspect}"
+
       slices = Scalpel.split_image original, order.rows, order.columns
+      puts "Sliced original into #{slices.size} slices"
 
       split_image = Boxes::SplitImage.create! @root
       split_image.slices = slices
@@ -14,7 +17,6 @@ module Scalpel
       split_image.row_count = order.rows
       split_image.width = original.columns
       split_image.height = original.rows
-
       puts "split image: #{split_image.inspect}"
 
       split_image.save!

@@ -1,3 +1,4 @@
+@scalpel
 Feature: Image ingestion
   In order to add pictures to Boxes
   As an administrator

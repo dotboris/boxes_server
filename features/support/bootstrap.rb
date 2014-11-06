@@ -1,14 +1,28 @@
 require 'tmpdir'
+require 'open3'
 
 module BootstrapHelpers
-  def create_media_root!
-    $tmp_media_root = Pathname.new(Dir.mktmpdir)
-    puts "Created tmp media root #{$tmp_media_root}"
+  attr_reader :tmp_media_root
 
-    at_exit do
-      FileUtils.rm_rf $tmp_media_root
-      puts "Deleted tmp media root #{$tmp_media_root}"
+  def maybe_create_media_root
+    if ENV['BOXES_MEDIA_ROOT'].nil? && tmp_media_root.nil?
+      create_media_root!
     end
+  end
+
+  def maybe_delete_media_root
+    delete_tmp_media_root! if tmp_media_root
+  end
+
+  def create_media_root!
+    @tmp_media_root = Pathname.new(Dir.mktmpdir)
+    puts "Created tmp media root #{@tmp_media_root}"
+  end
+
+  def delete_tmp_media_root!
+    puts "Deleted tmp media root #{tmp_media_root}"
+    tmp_media_root.rmtree
+    @tmp_media_root = nil
   end
 
   def is_alive?(pid)
@@ -18,55 +32,87 @@ module BootstrapHelpers
     return false
   end
 
-  def start_service!(name)
-    cmd = Bundler.with_clean_env do
+  def outputs
+    @outputs ||= {}
+  end
+
+  def waiters
+    @waiters ||= {}
+  end
+
+  def start!(name, command)
+    outputs[name], waiters[name] = Bundler.with_clean_env do
       inject_test_env!
-      Dir.chdir name do
-        IO.popen %w(thin -r bundler/setup -a 127.0.0.1 -p 23456 start)
+      Dir.chdir name.to_s do
+        _, out, waiter = Open3.popen2e *command
+
+        [out, waiter]
       end
     end
 
     sleep 2
 
-    pid = cmd.pid
-    raise "Failed to start #{name}. Output: \n#{cmd.read}" unless is_alive? cmd.pid
-    puts "Started #{name} @#{pid}"
+    raise "Failed to start #{name}" unless is_alive? waiters[name].pid
+    puts "Started #{name} @#{waiters[name].pid}"
+  end
 
-    at_exit do
-      puts "killing #{name} @#{pid}"
-      Process.kill 15, pid
-    end
+  def start_service!(name)
+    start! name, %w(thin -r bundler/setup -a 127.0.0.1 -p 23456 start)
   end
 
   def start_daemon!(name)
-    cmd = Bundler.with_clean_env do
-      inject_test_env!
-      Dir.chdir name do
-        IO.popen(['ruby', '-rbundler/setup', "./bin/#{name}"], 'r')
-      end
-    end
+    start! name, ['ruby', '-rbundler/setup', "./bin/#{name}"]
+  end
 
-    sleep 2
+  def kill_daemon!(name)
+    puts "killing #{name} @#{waiters[name].pid}"
+    Process.kill 15, waiters[name].pid
+    waiters[name].value
+    outputs[name].close
+  end
 
-    pid = cmd.pid
-    raise "Failed to start #{name}. Output: \n#{cmd.read}" unless is_alive? cmd.pid
-    puts "Started #{name} @#{pid}"
-
-    at_exit do
-      puts "killing #{name} @#{pid}"
-      Process.kill 15, pid
-    end
+  def dump_daemon_output(name)
+    puts "#{name} output:"
+    puts outputs[name].read
   end
 end
 
 World(BootstrapHelpers)
 
-Before do
-  unless $bootstrapped
-    create_media_root! unless ENV['BOXES_MEDIA_ROOT']
-    start_daemon! 'scalpel'
-    start_daemon! 'forklift'
-    start_service! 'drivethrough'
-    $bootstrapped = true
+Before('@drivethrough') do
+  drop_queue 'boxes.slices'
+  drop_queue 'boxes.slices.load'
+
+  start_service! :drivethrough
+end
+
+Before('@gluegun') do
+  drop_queue 'boxes.drawings'
+  drop_queue 'boxes.drawings.ingest'
+
+  start_daemon! :gluegun
+end
+
+Before('@scalpel') do
+  drop_queue 'boxes.uncut'
+
+  maybe_create_media_root
+  start_daemon! :scalpel
+end
+
+Before('@forklift') do
+  drop_queue 'boxes.slices'
+  drop_queue 'boxes.slices.load'
+
+  maybe_create_media_root
+  start_daemon! :forklift
+end
+
+[:scalpel, :forklift, :gluegun, :drivethrough].each do |daemon|
+  After("@#{daemon}") do |s|
+    dump_daemon_output daemon if s.failed?
+    kill_daemon! daemon rescue nil
+
+    maybe_delete_media_root
   end
 end

@@ -1,3 +1,4 @@
+@drivethrough @forklift @scalpel
 Feature: Slices retrieval
   In order to draw an image
   As a user
