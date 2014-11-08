@@ -42,6 +42,7 @@ GEM
     hashie (3.3.1)
     i18n (0.6.11)
     ice_nine (0.11.0)
+    jerry (1.0.1)
     json (1.8.1)
     minitest (5.4.2)
     multi_json (1.10.1)
@@ -86,6 +87,7 @@ DEPENDENCIES
   boxes-commons!
   bundler (~> 1.6)
   grape (~> 0.9.0)
+  jerry (~> 1.0.1)
   rack-test (~> 0.6.2)
   rake
   rspec (~> 3.1.0)

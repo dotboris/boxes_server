@@ -29,6 +29,20 @@ describe GlueGun::DrawingQueue do
     end
   end
 
+  describe '#publish' do
+    it 'should publish the json' do
+      drawing = double 'drawing', to_json: 'some json'
+      queue.publish drawing
+
+      sleep 0.1
+
+      raw_queue = @connection.channel.queue('boxes.drawings.testing')
+      _, _, payload = raw_queue.pop
+
+      expect(payload).to eq 'some json'
+    end
+  end
+
   describe '#pop' do
     it 'should return nils with empty queue' do
       res = queue.pop

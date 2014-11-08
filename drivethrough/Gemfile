@@ -7,6 +7,7 @@ else
 end
 
 gem 'grape', '~> 0.9.0'
+gem 'jerry', '~> 1.0.1'
 
 group :dev do
   gem 'bundler', '~> 1.6'

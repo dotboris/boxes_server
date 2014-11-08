@@ -8,6 +8,10 @@ module GlueGun
       @queue = @channel.queue "boxes.drawings.#{id}"
     end
 
+    def publish(drawing)
+      @queue.publish drawing.to_json
+    end
+
     def pop
       delivery_info, _, payload = @queue.pop manual_ack: true
 

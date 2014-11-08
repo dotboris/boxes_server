@@ -68,7 +68,6 @@ module BootstrapHelpers
     puts "killing #{name} @#{waiters[name].pid}"
     Process.kill 15, waiters[name].pid
     waiters[name].value
-    outputs[name].close
   end
 
   def dump_daemon_output(name)
@@ -110,8 +109,8 @@ end
 
 [:scalpel, :forklift, :gluegun, :drivethrough].each do |daemon|
   After("@#{daemon}") do |s|
-    dump_daemon_output daemon if s.failed?
     kill_daemon! daemon rescue nil
+    dump_daemon_output daemon if s.failed?
 
     maybe_delete_media_root
   end

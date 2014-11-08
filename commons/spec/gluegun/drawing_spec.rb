@@ -35,4 +35,20 @@ describe GlueGun::Drawing do
       expect(drawing.image).to eq image
     end
   end
+
+  describe '#to_json' do
+    it 'should convert id' do
+      drawing = GlueGun::Drawing.new 42, nil
+      raw_drawing = JSON.parse drawing.to_json
+
+      expect(raw_drawing['id']).to eq 42
+    end
+
+    it 'should convert image' do
+      drawing = GlueGun::Drawing.new nil, 'family photos'
+      raw_drawing = JSON.parse drawing.to_json
+
+      expect(Base64.decode64 raw_drawing['image']).to eq 'family photos'
+    end
+  end
 end

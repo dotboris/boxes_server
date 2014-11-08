@@ -1,14 +1,26 @@
 require 'grape'
+require 'jerry'
 require 'drivethrough'
+require 'drivethrough/config'
 require 'drivethrough/queue'
+require 'gluegun/drawing'
+require 'gluegun/drawing_queue'
 
 class DriveThrough
   class Api < Grape::API
     format :json
 
     helpers do
+      def bunny
+        jerry.rig :bunny
+      end
+
+      def jerry
+        @jerry ||= Jerry.new DriveThrough::Config.new
+      end
+
       def dt
-        @dt ||= DriveThrough.create!
+        jerry.rig(:drivethrough)
       end
     end
 
@@ -24,6 +36,18 @@ class DriveThrough
         header 'Content-Type', 'image/png'
 
         dt.slice
+      end
+    end
+
+    resource :drawings do
+      content_type :png, 'image/png'
+      format :png
+
+      desc 'Push drawings to system'
+      put ':queue/:id' do
+        queue = GlueGun::DrawingQueue.new bunny, params[:queue]
+        drawing = GlueGun::Drawing.new params[:id].to_i, env['api.request.input']
+        queue.publish drawing
       end
     end
   end
