@@ -32,9 +32,9 @@ module GlueGun
         sleep 1
       end
 
-      responses.each &:ack
+      ack_callback = proc { responses.each &:ack }
 
-      drawings
+      [drawings, ack_callback]
     end
   end
 end

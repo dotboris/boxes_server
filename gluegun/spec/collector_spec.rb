@@ -16,22 +16,46 @@ describe GlueGun::Collector do
         [GlueGun::Drawing.new(1, 'c'), double.as_null_object]
     )
 
-    images = collector.call
+    images, _ = collector.call
 
     expect(images).to eq %w(b c a)
   end
 
-  it 'should ack all drawings after receiving them all' do
+  it 'should return an ack callback' do
     collector = GlueGun::Collector.new queue, 3
     drawings = (0..2).map { |i| double "drawing #{i}", id: i, image: "image #{i}" }
     response = double 'response'
     allow(queue).to receive(:pop).and_return *drawings.zip([response] * 3)
 
+    _, ack = collector.call
 
-    expect(queue).to receive(:pop).exactly(3).times.ordered
-    expect(response).to receive(:ack).exactly(3).times.ordered
+    expect(ack).to respond_to :call
+  end
+
+  it 'should not ack responses itself' do
+    collector = GlueGun::Collector.new queue, 3
+    drawings = (0..2).map { |i| double "drawing #{i}", id: i, image: "image #{i}" }
+    response = double 'response'
+    allow(queue).to receive(:pop).and_return *drawings.zip([response] * 3)
+
+    expect(queue).to receive(:pop).exactly(3).times
+    expect(response).not_to receive(:ack)
 
     collector.call
+  end
+
+  describe 'ack callback' do
+    it 'should ack all responses' do
+      collector = GlueGun::Collector.new queue, 5
+      drawings = (0..5).map { |i| double "drawing #{i}", id: i, image: "image #{i}" }
+      response = double 'response'
+      allow(queue).to receive(:pop).and_return *drawings.zip([response] * 5)
+      _, ack = collector.call
+
+      expect(response).to receive(:ack).exactly(5).times
+
+      ack.call
+    end
   end
 
   it 'should ack doubles immediately' do
@@ -47,7 +71,6 @@ describe GlueGun::Collector do
     expect(queue).to receive(:pop).exactly(2).times.ordered
     expect(double_response).to receive(:ack).ordered
     expect(queue).to receive(:pop).ordered
-    expect(response).to receive(:ack).exactly(2).times.ordered
 
     collector.call
   end
@@ -59,7 +82,7 @@ describe GlueGun::Collector do
       [nil, nil]
     )
 
-    images = collector.call
+    images, _ = collector.call
 
     expect(images).to eq ['first', nil, nil]
   end

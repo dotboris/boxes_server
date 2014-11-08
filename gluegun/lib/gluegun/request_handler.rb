@@ -13,7 +13,7 @@ module GlueGun
       puts "Got request: #{request.inspect}"
 
       drawings_queue = GlueGun::DrawingQueue.new @connection, request.queue
-      drawings = collect_drawings(request, drawings_queue)
+      drawings, ack_drawings = collect_drawings(request, drawings_queue)
 
       puts 'Gluing drawings together'
       collage = glue_drawings request, drawings
@@ -23,6 +23,7 @@ module GlueGun
       @collage_queue.publish collage.to_blob
 
       response.ack
+      ack_drawings.call
       drawings_queue.delete
       puts 'Request done'
     end
@@ -39,10 +40,10 @@ module GlueGun
       collector = GlueGun::Collector.new drawings_queue, request.row_count * request.col_count
 
       puts "Collecting drawings from #{request.queue}"
-      drawings = collector.call
+      drawings, ack = collector.call
       puts "Finished collecting drawings. Got #{drawings.size} drawings, #{drawings.select(&:nil?).size} are nil"
 
-      drawings
+      [drawings, ack]
     end
   end
 end
