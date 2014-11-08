@@ -6,5 +6,9 @@ module GlueGun
       hash = JSON.parse json
       return new(hash['queue'], hash['row_count'], hash['col_count'], hash['width'], hash['height'])
     end
+
+    def to_json
+      to_h.to_json
+    end
   end
 end

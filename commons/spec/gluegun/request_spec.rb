@@ -47,4 +47,17 @@ describe GlueGun::Request do
       expect(request.height).to eq 400
     end
   end
+
+  describe '#to_json' do
+    it 'should return valid json' do
+      request = GlueGun::Request.new 'some queue', 3, 2, 278, 872
+      json = JSON.parse request.to_json
+
+      expect(json['queue']).to eq 'some queue'
+      expect(json['row_count']).to eq 3
+      expect(json['col_count']).to eq 2
+      expect(json['width']).to eq 278
+      expect(json['height']).to eq 872
+    end
+  end
 end
