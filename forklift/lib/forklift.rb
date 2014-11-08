@@ -1,4 +1,5 @@
 require 'forklift/version'
+require 'forklift/slice'
 require 'boxes/split_image'
 require 'gluegun/request'
 
@@ -13,7 +14,8 @@ class Forklift
     split_image = Boxes::SplitImage.pick_active @media_root
     puts "the winner is (drum roll)... #{split_image.inspect}"
 
-    request = GlueGun::Request.new SecureRandom.uuid,
+    collage_queue = SecureRandom.uuid
+    request = GlueGun::Request.new collage_queue,
                                    split_image.row_count,
                                    split_image.slices.size / split_image.row_count,
                                    split_image.width,
@@ -21,7 +23,8 @@ class Forklift
     @request_queue.publish request
     puts 'Sent a collage request'
 
-    split_image.slices.each { |slice| @slices_queue.publish slice }
+    slices = split_image.slices.map.with_index { |slice, i| Forklift::Slice.new collage_queue, i, slice }
+    slices.each { |slice| @slices_queue.publish slice.to_json }
 
     puts 'Published slices'
   end

@@ -10,22 +10,38 @@ describe DriveThrough::Api do
     DriveThrough::Api
   end
 
+  before do
+    ENV['BOXES_AMQP_URL'] = 'amqp://boxes:boxes@localhost'
+  end
+
+  before do
+    @connection = Bunny.new 'amqp://boxes:boxes@localhost'
+    @connection.start
+
+    @connection.channel.queue_purge 'boxes.drawings.testing' rescue nil
+    @connection.channel.queue_purge 'boxes.slices' rescue nil
+    @connection.channel.queue_purge 'boxes.slices.load' rescue nil
+  end
+
+  after do
+    @connection.close
+  end
+
+  describe 'GET /slice' do
+    it 'should return queue, id, and image' do
+      @connection.channel.queue('boxes.slices').publish '{"id": 55, "queue": "butts", "image": "pix"}'
+      sleep 0.1
+
+      get '/slice'
+      slice = JSON.parse last_response.body
+
+      expect(slice['id']).to eq 55
+      expect(slice['queue']).to eq 'butts'
+      expect(slice['image']).to eq 'pix'
+    end
+  end
+
   describe 'PUT /drawings/:queue/:index' do
-    before do
-      ENV['BOXES_AMQP_URL'] = 'amqp://boxes:boxes@localhost'
-    end
-
-    before do
-      @connection = Bunny.new 'amqp://boxes:boxes@localhost'
-      @connection.start
-
-      @connection.channel.queue_purge 'boxes.drawings.testing' rescue nil
-    end
-
-    after do
-      @connection.close
-    end
-
     it 'should send a drawing' do
       put '/drawings/testing/3', 'butts', 'CONTENT_TYPE' => 'image/png'
 

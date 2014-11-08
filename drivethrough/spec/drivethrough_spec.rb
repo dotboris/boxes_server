@@ -1,20 +1,6 @@
 require 'spec_helper'
 
 describe DriveThrough do
-  describe '#create!' do
-    it 'should return a drive through' do
-      allow(Boxes).to receive(:bunny).and_return(double('connection').as_null_object)
-
-      expect(DriveThrough.create!).to be_a DriveThrough
-    end
-
-    it 'should build create a connection from the environment' do
-      expect(Boxes).to receive(:bunny).and_return(double('connection').as_null_object)
-
-      DriveThrough.create!
-    end
-  end
-
   describe '#slice' do
     it 'should get a slice from the queue' do
       slices_queue = double('slices')

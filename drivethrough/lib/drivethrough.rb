@@ -4,16 +4,6 @@ require 'boxes'
 require 'thread'
 
 class DriveThrough
-  def self.create!
-    connection = Boxes.bunny
-    connection.start
-    channel = connection.create_channel
-    channel.prefetch 1
-
-    slices_queue = DriveThrough::Queue.new(channel.queue('boxes.slices'))
-    new(slices_queue, channel.queue('boxes.slices.load'))
-  end
-
   def initialize(slices_queue, request_queue)
     @slices_queue = slices_queue
     @request_queue = request_queue

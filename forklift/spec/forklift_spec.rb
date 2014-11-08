@@ -35,12 +35,13 @@ describe Forklift do
     end
 
     it 'should publish all slices' do
+      allow(SecureRandom).to receive(:uuid).and_return('some_queue')
       allow(split_image).to receive(:slices).and_return %w{echo foxtrot golf hotel}
 
-      expect(slices_queue).to receive(:publish).with('echo')
-      expect(slices_queue).to receive(:publish).with('foxtrot')
-      expect(slices_queue).to receive(:publish).with('golf')
-      expect(slices_queue).to receive(:publish).with('hotel')
+      expect(slices_queue).to receive(:publish).with Forklift::Slice.new('some_queue', 0, 'echo').to_json
+      expect(slices_queue).to receive(:publish).with Forklift::Slice.new('some_queue', 1, 'foxtrot').to_json
+      expect(slices_queue).to receive(:publish).with Forklift::Slice.new('some_queue', 2, 'golf').to_json
+      expect(slices_queue).to receive(:publish).with Forklift::Slice.new('some_queue', 3, 'hotel').to_json
 
       forklift.load_slices
     end
