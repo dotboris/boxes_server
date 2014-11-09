@@ -1,7 +1,7 @@
 PATH
   remote: ../commons
   specs:
-    boxes-commons (0.0.1)
+    boxes-commons (1.0.0)
       bunny (~> 1.5)
 
 GEM

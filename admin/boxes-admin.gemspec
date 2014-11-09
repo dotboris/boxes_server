@@ -22,6 +22,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec', '~> 3.1'
   spec.add_development_dependency 'fakefs', '~> 0.6'
 
-  spec.add_dependency 'boxes-commons', '0.0.1'
+  spec.add_dependency 'boxes-commons', '1.0.0'
   spec.add_dependency 'boson', '~> 1.3'
 end
