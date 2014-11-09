@@ -35,12 +35,12 @@ describe GlueGun::MosaicMaker do
 
     mosaic = maker.call blobs
 
-    expect(mosaic.pixel_color 0, 0).to eq Magick::Pixel.from_color('red')
-    expect(mosaic.pixel_color 0, 1).to eq Magick::Pixel.from_color('green')
-    expect(mosaic.pixel_color 0, 2).to eq Magick::Pixel.from_color('blue')
-    expect(mosaic.pixel_color 1, 0).to eq Magick::Pixel.from_color('yellow')
-    expect(mosaic.pixel_color 1, 1).to eq Magick::Pixel.from_color('purple')
-    expect(mosaic.pixel_color 1, 2).to eq Magick::Pixel.from_color('pink')
+    expect(mosaic.pixel_color(0, 0).to_color).to eq 'red'
+    expect(mosaic.pixel_color(1, 0).to_color).to eq 'green'
+    expect(mosaic.pixel_color(0, 1).to_color).to eq 'blue'
+    expect(mosaic.pixel_color(1, 1).to_color).to eq 'yellow'
+    expect(mosaic.pixel_color(0, 2).to_color).to eq 'purple'
+    expect(mosaic.pixel_color(1, 2).to_color).to eq 'pink'
   end
 
 

@@ -86,8 +86,8 @@ Before('@drivethrough') do
 end
 
 Before('@gluegun') do
-  drop_queue 'boxes.drawings'
-  drop_queue 'boxes.drawings.ingest'
+  drop_queue 'boxes.collages'
+  drop_queue 'boxes.collages.ingest'
 
   start_daemon! :gluegun
 end

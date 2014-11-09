@@ -34,12 +34,12 @@ describe DriveThrough::Api do
       expect(last_response.body).to eq 'butthole'
     end
 
-    it 'should have image/png as the content type' do
+    it 'should have application/json as the content type' do
       allow(drivethrough).to receive(:slice).and_return(nil)
 
       get '/slice'
 
-      expect(last_response.content_type).to eq 'image/png'
+      expect(last_response.content_type).to eq 'application/json'
     end
 
     it 'should have no caching' do

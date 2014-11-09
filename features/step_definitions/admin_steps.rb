@@ -6,7 +6,6 @@ def run_boxes_ctl(command, *args)
 end
 
 When(/ingest "([^"]*)" cut in (\d+)x(\d+)/) do |file, rows, cols|
-  root = File.expand_path '../../images', __FILE__
-  run_boxes_ctl('ingest', File.join(root, file), rows, cols)
+  run_boxes_ctl('ingest', image_path(file), rows, cols)
   sleep 2 # let time for scalpel to finish
 end

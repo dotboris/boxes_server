@@ -13,7 +13,7 @@ module GlueGun
       rows = (0...@rows).to_a
       cols = (0...@cols).to_a
 
-      images = cols.product(rows).zip(blobs).map do |(x, y), blob|
+      images = rows.product(cols).zip(blobs).map do |(y, x), blob|
         create_image x, y, blob
       end
 

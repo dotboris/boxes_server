@@ -28,7 +28,11 @@ module Boxes
       split_image.width = (path + 'width').open(&:read).to_i
       split_image.height = (path + 'height').open(&:read).to_i
       split_image.original = (path + 'original.png').open &:read
-      split_image.slices = path.children.select { |p| /^\d+\.png/ =~ p.basename.to_s }.map { |p| p.open &:read }
+
+      # we need to sort the files by name manually because we can't trust the FS
+      slices = path.children.select { |p| /^\d+\.png/ =~ p.basename.to_s }
+      slices.sort_by! { |p| p.basename.to_s.scan(/^\d+/).first.to_i }
+      split_image.slices = slices.map { |p| p.open &:read }
 
       split_image
     end

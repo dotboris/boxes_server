@@ -7,4 +7,5 @@ group :dev do
   gem 'rake'
   gem 'cucumber', '~> 1.3.17'
   gem 'faraday', '~> 0.9.0'
+  gem 'rmagick', github: 'gemhome/rmagick'
 end

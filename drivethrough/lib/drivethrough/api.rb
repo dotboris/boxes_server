@@ -8,8 +8,6 @@ require 'gluegun/drawing_queue'
 
 class DriveThrough
   class Api < Grape::API
-    format :json
-
     helpers do
       def bunny
         jerry.rig :bunny
@@ -29,19 +27,20 @@ class DriveThrough
     end
 
     resource :slice do
+      content_type :binary, 'application/json'
+      format :binary
+
       desc 'Return a random image slice.'
       get do
-        env['api.format'] = :binary
         header 'Cache-Control', 'no-cache'
-        header 'Content-Type', 'image/png'
 
         dt.slice
       end
     end
 
     resource :drawings do
-      content_type :png, 'image/png'
-      format :png
+      content_type :binary, 'image/png'
+      format :binary
 
       desc 'Push drawings to system'
       put ':queue/:id' do

@@ -43,7 +43,7 @@ describe Boxes::SplitImage do
 
       Boxes::SplitImage.create! root
 
-      expect(root.children).to include(root + 'a', root + 'b')
+      expect(root.children).to eq [root + 'a', root + 'b']
     end
   end
 
@@ -87,7 +87,7 @@ describe Boxes::SplitImage do
 
       split_image = Boxes::SplitImage.read root
 
-      expect(split_image.slices).to include('alpha', 'bravo', 'charlie', 'delta')
+      expect(split_image.slices).to eq %w(alpha bravo charlie delta)
     end
 
     it 'should load row_count' do

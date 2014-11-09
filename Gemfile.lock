@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/gemhome/rmagick.git
+  revision: f2a4b9e6a1c3656b5ac58e51482e27f40c5b1dc7
+  specs:
+    rmagick (2.13.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -42,4 +48,5 @@ DEPENDENCIES
   cucumber (~> 1.3.17)
   faraday (~> 0.9.0)
   rake
+  rmagick!
   rspec (~> 3.1.0)

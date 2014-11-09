@@ -19,6 +19,7 @@ request_queue = GlueGun::RequestQueue.new conn
 
 forklift = Forklift.new Boxes.media_root, publish_channel.queue('boxes.slices'), request_queue
 
+puts 'Waiting for requests'
 load_slices_queue.subscribe block: true do
   begin
     puts 'Got load request'
