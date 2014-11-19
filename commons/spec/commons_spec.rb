@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'boxes'
 
-describe Boxes do
+describe Boxes, :dirties_env do
   it 'has a version number' do
     expect(Boxes::VERSION).not_to be nil
   end

@@ -1,33 +1,8 @@
 require 'gluegun/drawing_queue'
 require 'bunny'
 
-describe GlueGun::DrawingQueue do
-  let(:queue) { GlueGun::DrawingQueue.new @connection, 'testing' }
-
-  before do
-    @connection = Bunny.new 'amqp://boxes:boxes@localhost'
-    @connection.start
-  end
-
-  after do
-    @connection.close
-  end
-
-  before do
-    begin
-      @connection.channel.queue_purge 'boxes.drawings.testing'
-    rescue Bunny::NotFound
-      # ignored
-    end
-  end
-
-  after do
-    begin
-      @connection.channel.queue_delete 'boxes.drawings.testing'
-    rescue Bunny::NotFound
-      # ignored
-    end
-  end
+describe GlueGun::DrawingQueue, :real_bunny do
+  let(:queue) { GlueGun::DrawingQueue.new bunny, drawing_queue_id }
 
   describe '#publish' do
     it 'should publish the json' do
@@ -36,7 +11,7 @@ describe GlueGun::DrawingQueue do
 
       sleep 0.1
 
-      raw_queue = @connection.channel.queue('boxes.drawings.testing')
+      raw_queue = bunny.channel.queue("boxes.drawings.#{drawing_queue_id}")
       _, _, payload = raw_queue.pop
 
       expect(payload).to eq 'some json'
@@ -52,7 +27,7 @@ describe GlueGun::DrawingQueue do
 
     context 'with something in the queue' do
       before do
-        queue = @connection.channel.queue 'boxes.drawings.testing'
+        queue = bunny.channel.queue "boxes.drawings.#{drawing_queue_id}"
         queue.publish '{"some":"json"}'
       end
 
@@ -86,7 +61,7 @@ describe GlueGun::DrawingQueue do
 
       sleep 0.1
 
-      expect{@connection.channel.queue_purge('boxes.drawings.testing')}.to raise_error(Bunny::NotFound)
+      expect{bunny.channel.queue_purge("boxes.drawings.#{drawing_queue_id}")}.to raise_error(Bunny::NotFound)
     end
   end
 end

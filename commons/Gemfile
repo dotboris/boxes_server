@@ -1,3 +1,7 @@
 source 'https://rubygems.org'
 
 gemspec
+
+group :dev do
+  gem 'boxes-test', path: '../test'
+end
