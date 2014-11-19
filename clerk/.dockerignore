@@ -1,0 +1,10 @@
+.gitignore
+.rakeTasks
+
+LICENSE.txt
+README.md
+
+*.iml
+
+spec
+Rakefile
