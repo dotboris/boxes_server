@@ -10,5 +10,11 @@ module Clerk
     def publish(stuff)
       @queue.publish stuff
     end
+
+    def subscribe(&block)
+      @queue.subscribe do |_, _, payload|
+        block.call payload
+      end
+    end
   end
 end
