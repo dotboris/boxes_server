@@ -6,29 +6,6 @@ require 'bundler'
 module Boxes
   module Test
     module Daemon
-      attr_reader :tmp_media_root
-
-      def maybe_create_media_root
-        if ENV['BOXES_MEDIA_ROOT'].nil? && tmp_media_root.nil?
-          create_media_root!
-        end
-      end
-
-      def maybe_delete_media_root
-        delete_tmp_media_root! if tmp_media_root
-      end
-
-      def create_media_root!
-        @tmp_media_root = Pathname.new(Dir.mktmpdir)
-        puts "Created tmp media root #{@tmp_media_root}"
-      end
-
-      def delete_tmp_media_root!
-        puts "Deleted tmp media root #{tmp_media_root}"
-        tmp_media_root.rmtree
-        @tmp_media_root = nil
-      end
-
       def is_alive?(pid)
         Process.kill 0, pid
         return true
