@@ -14,31 +14,24 @@ World(
     Boxes::Test::Daemon
 )
 
-Before('@drivethrough') do
-  drop_queue 'boxes.slices'
-  drop_queue 'boxes.slices.load'
+Before do
+  drop_all_queues!
+end
 
+Before('@drivethrough') do
   start_service! :drivethrough, drivethrough_port
 end
 
 Before('@gluegun') do
-  drop_queue 'boxes.collages'
-  drop_queue 'boxes.collages.ingest'
-
   start_daemon! :gluegun
 end
 
 Before('@scalpel') do
-  drop_queue 'boxes.uncut'
-
   maybe_create_media_root
   start_daemon! :scalpel
 end
 
 Before('@forklift') do
-  drop_queue 'boxes.slices'
-  drop_queue 'boxes.slices.load'
-
   maybe_create_media_root
   start_daemon! :forklift
 end
