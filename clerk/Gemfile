@@ -9,6 +9,8 @@ end
 gem 'rmagick', github: 'gemhome/rmagick'
 
 group :dev do
+  gem 'boxes-test', path: '../test'
+
   gem 'bundler', '~> 1.6'
   gem 'rake'
   gem 'rspec', '~> 3.1.0'

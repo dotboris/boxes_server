@@ -24,6 +24,11 @@ module Boxes
         File.expand_path '../../../../..', __FILE__
       end
 
+      def image_path(name)
+        root = File.expand_path('../../../../images', __FILE__)
+        File.expand_path name, root
+      end
+
       def amqp_url
         ENV['BOXES_AMQP_URL'] || 'amqp://boxes:boxes@localhost'
       end
