@@ -32,9 +32,14 @@ module Boxes
         ENV['BOXES_MEDIA_ROOT'] || @tmp_media_root
       end
 
+      def mongodb_url
+        ENV['BOXES_MONGODB_URL'] || 'mongodb://localhost/boxes-test'
+      end
+
       def inject_test_env!
         ENV['BOXES_AMQP_URL'] = amqp_url
         ENV['BOXES_MEDIA_ROOT'] = media_root
+        ENV['BOXES_MONGODB_URL'] = mongodb_url
       end
 
       def drivethrough_port

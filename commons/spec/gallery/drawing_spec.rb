@@ -2,30 +2,26 @@ require 'gallery/drawing'
 require 'mongo_mapper'
 require 'mongo'
 
-describe Gallery::Drawing do
-  let(:collection) { Mongo::MongoClient.new('localhost', 27017).db('boxes-test').collection('gallery.drawings')}
-
+describe Gallery::Drawing, :real_mongo do
   before do
     # noinspection RubyStringKeysInHashInspection
-    MongoMapper.setup({'production' => {'uri' => 'mongodb://localhost/boxes-test'}}, 'production')
-
-    collection.remove
+    MongoMapper.setup({'test' => {'uri' => mongodb_url}}, 'test')
   end
 
   it 'should save to db' do
     drawing = Gallery::Drawing.new image: 'some binary image blob'
     drawing.save!
 
-    expect(collection.count).to eq 1
-    expect(collection.find_one['_id']).to eq drawing.id
+    expect(drawings_collection.count).to eq 1
+    expect(drawings_collection.find_one['_id']).to eq drawing.id
 
-    expect(collection.find_one['image']).not_to be_nil
-    expect(collection.find_one['image']).to eq drawing.image
+    expect(drawings_collection.find_one['image']).not_to be_nil
+    expect(drawings_collection.find_one['image']).to eq drawing.image
   end
 
   it 'should find single from db' do
     drawing = {image: BSON::Binary.new('some other binary blob')}
-    id = collection.insert(drawing)
+    id = drawings_collection.insert(drawing)
 
     retrieved = Gallery::Drawing.find id
 
@@ -41,7 +37,7 @@ describe Gallery::Drawing do
         {image: BSON::Binary.new('b')},
         {image: BSON::Binary.new('c')}
     ]
-    collection.insert drawings
+    drawings_collection.insert drawings
 
     retrieved = Gallery::Drawing.all
 

@@ -3,15 +3,18 @@ require 'boxes'
 require 'fakefs/spec_helpers'
 require 'boxes/test/env'
 require 'boxes/test/rabbitmq'
+require 'boxes/test/mongodb'
 
 POSSIBLY_DIRTY_ENV_VARS = %w{
   BOXES_AMQP_URL
   BOXES_MEDIA_ROOT
+  BOXES_MONGODB_URL
 }
 
 RSpec.configure do |c|
   c.include Boxes::Test::Env
   c.include Boxes::Test::RabbitMq
+  c.include Boxes::Test::MongoDb
 
   c.around(:example) do |example|
     if example.metadata[:timeout]
@@ -34,5 +37,10 @@ RSpec.configure do |c|
     drop_all_queues!
     example.run
     bunny_disconnect
+  end
+
+  c.around(:example, :real_mongo) do |example|
+    clear_drawings_collection!
+    example.run
   end
 end
