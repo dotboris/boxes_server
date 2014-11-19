@@ -3,6 +3,7 @@ install: travis_retry rake bundle:install
 before_script: ./ci/rabbitmq_setup.sh
 services:
   - rabbitmq
+  - mongodb
 rvm:
   - 2.1.4
   - 2.1.3
