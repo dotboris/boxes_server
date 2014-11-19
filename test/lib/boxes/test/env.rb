@@ -20,6 +20,10 @@ module Boxes
         @tmp_media_root = nil
       end
 
+      def project_root
+        File.expand_path '../../../../..', __FILE__
+      end
+
       def amqp_url
         ENV['BOXES_AMQP_URL'] || 'amqp://boxes:boxes@localhost'
       end

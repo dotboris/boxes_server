@@ -23,7 +23,7 @@ module Boxes
       def start!(name, command)
         outputs[name], waiters[name] = Bundler.with_clean_env do
           inject_test_env!
-          Dir.chdir name.to_s do
+          Dir.chdir File.expand_path(name.to_s, project_root) do
             _, out, waiter = Open3.popen2e *command
 
             [out, waiter]
