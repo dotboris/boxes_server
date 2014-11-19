@@ -18,8 +18,20 @@ module Boxes
         end
       end
 
+      def services
+        @services ||= {}
+      end
+
+      def service(name, port)
+        if services.has_key? name
+          services[name]
+        else
+          services[name] = Service.new "http://127.0.0.1:#{port}"
+        end
+      end
+
       def drivethrough
-        @drivethrough ||= Service.new 'http://127.0.0.1:23456/'
+        service :drivethrough, drivethrough_port
       end
     end
   end

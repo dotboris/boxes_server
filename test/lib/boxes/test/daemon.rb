@@ -37,8 +37,8 @@ module Boxes
         puts "Started #{name} @#{waiters[name].pid}"
       end
 
-      def start_service!(name)
-        start! name, %w(thin -r bundler/setup -a 127.0.0.1 -p 23456 start)
+      def start_service!(name, port)
+        start! name, ['thin', '-rbundler/setup', '-a', '127.0.0.1', '-p', port.to_s, 'start']
       end
 
       def start_daemon!(name)

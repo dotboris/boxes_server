@@ -32,6 +32,10 @@ module Boxes
         ENV['BOXES_AMQP_URL'] = amqp_url
         ENV['BOXES_MEDIA_ROOT'] = media_root
       end
+
+      def drivethrough_port
+        ENV['BOXES_DRIVE_THROUGH_PORT'] || 23456.to_s
+      end
     end
   end
 end

@@ -18,7 +18,7 @@ Before('@drivethrough') do
   drop_queue 'boxes.slices'
   drop_queue 'boxes.slices.load'
 
-  start_service! :drivethrough
+  start_service! :drivethrough, drivethrough_port
 end
 
 Before('@gluegun') do
