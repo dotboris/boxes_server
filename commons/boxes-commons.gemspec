@@ -9,9 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Boris Bera']
   spec.email         = ['bboris@rsoft.ca']
   spec.summary       = %q{Common code shared by all parts of the boxes server system}
-  spec.description   = %q{Common code shared by all parts of the boxes server system}
 
-  spec.homepage      = 'https://github.com/beraboris/boxes'
+  spec.homepage      = 'https://github.com/beraboris/boxes_server'
   spec.license       = 'MIT'
 
   spec.files         = Dir['lib/**/*', 'spec/**/*']
