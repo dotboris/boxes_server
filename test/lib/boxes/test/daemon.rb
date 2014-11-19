@@ -1,6 +1,5 @@
 require 'open3'
 require 'tmpdir'
-require 'pathname'
 require 'bundler'
 
 module Boxes
