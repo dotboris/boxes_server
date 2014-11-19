@@ -3,10 +3,14 @@ PATH
   specs:
     boxes-commons (1.0.0)
       bunny (~> 1.5)
+      mongo_mapper (~> 0.13.1)
 
 GEM
   remote: https://rubygems.org/
   specs:
+    activemodel (4.1.6)
+      activesupport (= 4.1.6)
+      builder (~> 3.1)
     activesupport (4.1.6)
       i18n (~> 0.6, >= 0.6.9)
       json (~> 1.7, >= 1.7.7)
@@ -18,8 +22,9 @@ GEM
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
       thread_safe (~> 0.3, >= 0.3.1)
+    bson (1.11.1)
     builder (3.2.2)
-    bunny (1.5.0)
+    bunny (1.6.3)
       amq-protocol (>= 1.9.2)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
@@ -45,8 +50,17 @@ GEM
     jerry (1.0.1)
     json (1.8.1)
     minitest (5.4.2)
+    mongo (1.11.1)
+      bson (= 1.11.1)
+    mongo_mapper (0.13.1)
+      activemodel (>= 3.0.0)
+      activesupport (>= 3.0)
+      mongo (~> 1.8)
+      plucky (~> 0.6.5)
     multi_json (1.10.1)
     multi_xml (0.5.5)
+    plucky (0.6.6)
+      mongo (~> 1.5)
     rack (1.5.2)
     rack-accept (0.4.5)
       rack (>= 0.4)

@@ -48,6 +48,24 @@ namespace :rabbitmq do
   task :restart => [:stop, :start]
 end
 
+directory 'tmp/db'
+
+namespace :mongodb do
+  desc 'Start mongodb from docker'
+  task :start => 'tmp/db' do
+    sh "docker run -d -P --name mongodb -p 27017:27017 -v #{File.expand_path '..', __FILE__}/tmp/db:/data/db mongo:2.6.5"
+  end
+
+  desc 'Stop running mongodb instance'
+  task :stop do
+    sh 'docker stop mongodb'
+    sh 'docker rm mongodb'
+  end
+
+  desc 'Restart mongodb'
+  task :restart => [:stop, :start]
+end
+
 directory 'tmp/media'
 
 namespace :docker do

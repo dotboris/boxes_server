@@ -25,4 +25,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'fakefs', '~> 0.6'
 
   spec.add_dependency 'bunny', '~> 1.5'
+  spec.add_dependency 'mongo_mapper', '~> 0.13.1'
 end
