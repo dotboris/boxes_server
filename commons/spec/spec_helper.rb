@@ -36,6 +36,7 @@ RSpec.configure do |c|
     inject_test_env!
     drop_all_queues!
     example.run
+    drop_drawing_queue
     bunny_disconnect
   end
 

@@ -16,6 +16,7 @@ describe DriveThrough::Api do
   end
 
   after do
+    drop_drawing_queue
     bunny_disconnect
   end
 

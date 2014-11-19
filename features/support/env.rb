@@ -46,5 +46,6 @@ end
 end
 
 After do
+  drop_drawing_queue
   bunny_disconnect
 end

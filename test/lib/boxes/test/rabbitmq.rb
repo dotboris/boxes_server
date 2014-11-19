@@ -38,6 +38,9 @@ module Boxes
 
       def drop_all_queues!
         QUEUES.each { |queue| drop_queue queue }
+      end
+
+      def drop_drawing_queue
         drop_queue "boxes.drawings.#{drawing_queue_id}"
       end
 

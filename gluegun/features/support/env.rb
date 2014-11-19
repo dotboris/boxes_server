@@ -21,6 +21,7 @@ Before do
 end
 
 After do |s|
+  drop_drawing_queue
   kill_daemon! :gluegun
   dump_daemon_output :gluegun if s.failed?
 
