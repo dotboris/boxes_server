@@ -1,1 +1,23 @@
 #!/usr/bin/env ruby
+require 'boxes'
+require 'boxes/mongodb'
+require 'clerk/collage_queue'
+require 'gallery/drawing'
+
+puts 'Clerk reporting in!'
+
+Boxes.configure_mongo_mapper
+puts 'Configured mongo mapper'
+
+bunny = Boxes.bunny
+bunny.start
+queue = Clerk::CollageQueue.new bunny
+puts 'Configured bunny'
+
+puts 'Waiting for requests'
+queue.subscribe do |image|
+  puts 'Got image'
+  drawing = Gallery::Drawing.new image: image
+  drawing.save
+  puts "Saved image as #{drawing.id}"
+end

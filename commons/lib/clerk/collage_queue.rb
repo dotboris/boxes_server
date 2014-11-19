@@ -12,7 +12,7 @@ module Clerk
     end
 
     def subscribe(&block)
-      @queue.subscribe do |_, _, payload|
+      @queue.subscribe block: true do |_, _, payload|
         block.call payload
       end
     end
