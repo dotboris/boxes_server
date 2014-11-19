@@ -1,8 +1,18 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'boxes'
 require 'fakefs/spec_helpers'
+require 'boxes/test/env'
+require 'boxes/test/rabbitmq'
+
+POSSIBLY_DIRTY_ENV_VARS = %w{
+  BOXES_AMQP_URL
+  BOXES_MEDIA_ROOT
+}
 
 RSpec.configure do |c|
+  c.include Boxes::Test::Env
+  c.include Boxes::Test::RabbitMq
+
   c.around(:example) do |example|
     if example.metadata[:timeout]
       Timeout.timeout(example.metadata[:timeout]) do
@@ -11,5 +21,18 @@ RSpec.configure do |c|
     else
       example.run
     end
+  end
+
+  c.around(:example, :dirties_env) do |example|
+    old_env = POSSIBLY_DIRTY_ENV_VARS.map { |k| [k, ENV[k]] }
+    example.run
+    old_env.each { |k, v| ENV[k] = v }
+  end
+
+  c.around(:example, :real_bunny) do |example|
+    inject_test_env!
+    drop_all_queues!
+    example.run
+    bunny_disconnect
   end
 end

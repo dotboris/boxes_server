@@ -4,14 +4,14 @@ Given(/request a (\d+)x(\d+) collage cut in (\d+)x(\d+)?/) do |width, height, ro
       height: height.to_i,
       row_count: rows.to_i,
       col_count: cols.to_i,
-      queue: queue_id
+      queue: drawing_queue_id
   }
 
   bunny.channel.queue('boxes.collages').publish request.to_json
 end
 
 When(/submit (\d+)x(\d+) drawings? "(\d+(?:,\s*\d+)*)"/) do |width, height, raw_ids|
-  queue = bunny.channel.queue("boxes.drawings.#{queue_id}")
+  queue = bunny.channel.queue("boxes.drawings.#{drawing_queue_id}")
 
   ids = raw_ids.scan(/\d+/).map &:to_i
   ids.each do |id|

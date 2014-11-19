@@ -2,17 +2,8 @@ require 'spec_helper'
 require 'clerk/collage_queue'
 require 'bunny'
 
-describe Clerk::CollageQueue do
-  before do
-    @connection = Bunny.new 'amqp://boxes:boxes@localhost'
-    @connection.start
-  end
-
-  after do
-    @connection.close
-  end
-
-  let(:queue) { Clerk::CollageQueue.new @connection }
+describe Clerk::CollageQueue, :real_bunny do
+  let(:queue) { Clerk::CollageQueue.new bunny }
 
   describe '#publish' do
     it 'should publish the raw string' do
@@ -20,7 +11,7 @@ describe Clerk::CollageQueue do
 
       sleep 0.1
 
-      _, _, payload = @connection.channel.queue('boxes.collages.ingest').pop
+      _, _, payload = bunny.channel.queue('boxes.collages.ingest').pop
 
       expect(payload).to eq 'something'
     end

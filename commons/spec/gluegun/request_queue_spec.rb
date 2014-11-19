@@ -1,19 +1,8 @@
 require 'gluegun/request_queue'
 require 'bunny'
 
-describe GlueGun::RequestQueue do
-  before do
-    @connection = Bunny.new 'amqp://boxes:boxes@localhost'
-    @connection.start
-
-    @connection.channel.queue_purge 'boxes.collages' rescue nil
-  end
-
-  after do
-    @connection.close
-  end
-
-  let(:queue) { GlueGun::RequestQueue.new @connection }
+describe GlueGun::RequestQueue, :real_bunny do
+  let(:queue) { GlueGun::RequestQueue.new bunny }
 
   describe '#publish' do
     it 'should publish the request in json' do
@@ -23,7 +12,7 @@ describe GlueGun::RequestQueue do
 
       sleep 0.1
 
-      _, _, payload = @connection.channel.queue('boxes.collages').pop
+      _, _, payload = bunny.channel.queue('boxes.collages').pop
 
       expect(payload).to eq '{"something": "interesting"}'
     end
@@ -41,13 +30,7 @@ describe GlueGun::RequestQueue do
     end
 
     before do
-      begin
-        @connection.channel.queue_purge 'boxes.collages'
-      rescue Bunny::NotFound
-        # ignored
-      end
-
-      queue = @connection.channel.queue 'boxes.collages'
+      queue = bunny.channel.queue 'boxes.collages'
       queue.publish '{"some": "json"}'
 
       # make sure we call the body of block
