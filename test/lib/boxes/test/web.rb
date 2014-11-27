@@ -33,6 +33,10 @@ module Boxes
       def drivethrough
         service :drivethrough, drivethrough_port
       end
+
+      def gallery
+        service :gallery, gallery_port
+      end
     end
   end
 end

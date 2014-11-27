@@ -50,6 +50,10 @@ module Boxes
       def drivethrough_port
         ENV['BOXES_DRIVE_THROUGH_PORT'] || 23456.to_s
       end
+
+      def gallery_port
+        ENV['BOXES_GALLERY_PORT'] || 13337.to_s
+      end
     end
   end
 end

@@ -9,3 +9,10 @@ Feature: Drawing images
     And I ingest "q.jpg" cut in 2x3
     When I draw 6 slices
     Then I should find "q.jpg" in the collages queue
+
+  @clerk @gallery
+  Scenario: Drawing all slices with gallery
+    Given I have no split images
+    And I ingest "q.jpg" cut in 2x3
+    When I draw 6 slices
+    Then I should find "q.jpg" in the gallery
