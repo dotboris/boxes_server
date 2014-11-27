@@ -5,15 +5,19 @@ PATH
       bundler (~> 1.6)
       bunny (~> 1.5)
       faraday (~> 0.9)
+      mongo (~> 1.11)
 
 GEM
   remote: https://rubygems.org/
   specs:
     amq-protocol (1.9.2)
+    bson (1.11.1)
     bunny (1.6.3)
       amq-protocol (>= 1.9.2)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
+    mongo (1.11.1)
+      bson (= 1.11.1)
     multipart-post (2.0.0)
 
 PLATFORMS

@@ -18,6 +18,7 @@ PATH
       bundler (~> 1.6)
       bunny (~> 1.5)
       faraday (~> 0.9)
+      mongo (~> 1.11)
 
 GEM
   remote: https://rubygems.org/
