@@ -1,6 +1,6 @@
 require 'bundler'
 
-PROJECTS = %w{commons scalpel forklift gluegun drivethrough admin clerk}
+PROJECTS = %w{commons scalpel forklift gluegun drivethrough admin clerk gallery}
 
 desc 'Run specs on projects'
 task :spec do
@@ -67,7 +67,7 @@ end
 directory 'tmp/media'
 
 namespace :docker do
-  DOCKER_PROJECT = %w{clerk scalpel forklift drivethrough gluegun}
+  DOCKER_PROJECT = %w{clerk scalpel forklift drivethrough gluegun gallery}
 
   desc 'Build all the projects that can be built with docker'
   task :build do
@@ -92,6 +92,11 @@ namespace :docker do
       sh 'docker run -d --link rabbitmq:rabbitmq --link mongodb:mongodb boxes/clerk'
     end
 
+    desc 'Run gallery docker image'
+    task :gallery do
+      sh 'docker run -d -P --link mongodb:mongodb boxes/gallery'
+    end
+
     %w{scalpel forklift}.each do |daemon|
       desc "Run #{daemon} docker image"
       task daemon => 'tmp/media' do
@@ -102,5 +107,5 @@ namespace :docker do
   end
 
   desc 'Run all docker images'
-  task :run => %w(run:drivethrough run:scalpel run:forklift run:gluegun run:clerk)
+  task :run => %w(run:drivethrough run:scalpel run:forklift run:gluegun run:clerk run:gallery)
 end
