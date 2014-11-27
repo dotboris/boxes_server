@@ -110,7 +110,7 @@ PLATFORMS
 
 DEPENDENCIES
   boxes-commons!
-  boxes-test!
+  boxes-test (= 0.0.1)!
   bundler (~> 1.6)
   grape (~> 0.9.0)
   jerry (~> 1.0.1)

@@ -10,7 +10,9 @@ gem 'grape', '~> 0.9.0'
 gem 'jerry', '~> 1.0.1'
 
 group :dev do
-  gem 'boxes-test', path: '../test'
+  if File.exist? File.expand_path('../../test', __FILE__)
+    gem 'boxes-test', '= 0.0.1', path: '../test'
+  end
 
   gem 'bundler', '~> 1.6'
   gem 'rake'
