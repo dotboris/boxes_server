@@ -41,7 +41,7 @@ namespace :rabbitmq do
   desc 'Stop running rabbitmq instance'
   task :stop do
     sh 'docker stop rabbitmq'
-    sh 'docker rm rabbitmq'
+    sh 'docker rm -v rabbitmq'
   end
 
   desc 'Restart rabbitmq'
@@ -51,13 +51,13 @@ end
 namespace :mongodb do
   desc 'Start mongodb from docker'
   task :start do
-    sh 'docker run -d -P --name mongodb -p 27017:27017 mongo:2.6.5'
+    sh 'docker run -d -P --name mongodb -p 27017:27017 mongo:2.6.5 --smallfiles'
   end
 
   desc 'Stop running mongodb instance'
   task :stop do
     sh 'docker stop mongodb'
-    sh 'docker rm mongodb'
+    sh 'docker rm -v mongodb'
   end
 
   desc 'Restart mongodb'
