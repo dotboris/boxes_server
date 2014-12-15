@@ -3,13 +3,11 @@ Boxes Server
 
 [![Build Status](https://travis-ci.org/beraboris/boxes_server.svg?branch=master)](https://travis-ci.org/beraboris/boxes_server)
 
-Boxes server is the server component of a collaborative drawing application. 
+This is the server component of a collaborative drawing application called Boxes. It is built from micro services and
+gems. The micro services are packaged as [Docker](https://www.docker.com/) images.
 
-Boxes server is made up of multiple components. It contains: daemons, gems, web services & utilities.
-
-The daemons and web services are packaged as [Docker](https://www.docker.com/) images.
-
-The gems and utilities are packaged as standard Ruby gems.
+This is a school project that is meant to be a more of a prototype than anything else. If you use this in production, I
+will be very disappointed in you. 
 
 Dependencies
 ============
