@@ -9,6 +9,8 @@ gems. The micro services are packaged as [Docker](https://www.docker.com/) image
 This is a school project that is meant to be a more of a prototype than anything else. If you use this in production, I
 will be very disappointed in you. 
 
+This server is meant to be used with its companion [android app](https://github.com/beraboris/boxes_app).
+
 Dependencies
 ============
 
