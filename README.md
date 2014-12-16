@@ -118,3 +118,16 @@ If that doesn't work, you can try:
 Once that's up and running, you can run the tests with:
 
     $ rake
+
+Known issues
+============
+
+When an image is being drawn, there is a time limit of 5 minutes to draw each section of the image. This is an indented
+behavior to avoid users taking requesting images to draw and never drawing them.
+
+When this time limit is reached the drawing will be glued together with the pieces of drawings available. This leaves
+some image slices to be drawn that will not be used when gluing a drawing together. This means that these image pieces
+will never be part of a drawing, but they will still be given out to users so that they can be drawn.
+
+You can get rid of these images by purging the `boxes.slices` queue. The interface for Rabbit MQ can be accessed at
+`http://localhost:15672` with `boxes` as the username and password.
